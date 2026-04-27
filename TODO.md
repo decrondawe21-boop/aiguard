@@ -39,7 +39,7 @@
 - Dokončeno: extension vrstva má shared contracts pro hrozby, runtime messages, audit trail i inference bridge payloady.
 - Dokončeno: `background.js`, `content.js` a `sidepanel.js` běží pod `@ts-check` a mají samostatný `typecheck:extension`.
 - Dokončeno: je připravený volitelný `inference-bridge.js` pro lokální endpoint přes `chrome.storage.local` config.
-- Nahradit placeholder extension ikony finální sadou (`16 / 48 / 128`) místo dočasných assetů.
+- Dokončeno: placeholder extension ikony byly nahrazené finální sadou (`16 / 48 / 128`) podle oficiálního AEGIS štítu.
 - Rozšířit `content.js` z highlight-only režimu na reálné zásahy:
   - neutral rewrite copy
   - suppression urgency prvků
