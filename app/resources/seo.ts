@@ -39,7 +39,7 @@ const defaultMeta: MetaProps = {
     "AEGIS propojuje Ultimate OS, digitální identitu a lokální AI obranu proti manipulaci, digitálnímu nátlaku a sledování.",
   baseURL,
   type: "website",
-  image: "/gallery/cat-neon-city.png",
+  image: "/og/aegis-ultimate.png",
   author,
 };
 
@@ -67,7 +67,7 @@ const pageSeo: Record<
       description:
         "Ultimate OS je prémiový designový surface systému AEGIS propojující digitální identitu, noční atmosféru a rozhraní postavené na Once UI.",
       path: "/",
-      image: "/gallery/neon-frame.png",
+      image: "/og/aegis-ultimate.png",
     },
     schema: {
       as: "website",
@@ -75,7 +75,7 @@ const pageSeo: Record<
       description:
         "Designový surface systému AEGIS propojující digitální identitu, noční atmosféru a prémiové rozhraní.",
       path: "/",
-      image: "/gallery/neon-frame.png",
+      image: "/og/aegis-ultimate.png",
     },
   },
   aiGuard: {
@@ -84,7 +84,7 @@ const pageSeo: Record<
       description:
         "Protokol: Aegis mapuje vrstvy detekce manipulace, aktivní obranu a on-premise AI infrastrukturu pro ochranu pozornosti a soukromí.",
       path: "/ai-guard",
-      image: "/gallery/cat-neon-city.png",
+      image: "/og/protokol-aegis.png",
     },
     schema: {
       as: "webPage",
@@ -92,7 +92,7 @@ const pageSeo: Record<
       description:
         "Architektura detekce manipulace a aktivní obrany protokolu AEGIS proti digitálnímu nátlaku.",
       path: "/ai-guard",
-      image: "/gallery/cat-neon-city.png",
+      image: "/og/protokol-aegis.png",
     },
   },
   philosophy: {
@@ -101,7 +101,7 @@ const pageSeo: Record<
       description:
         "Filosofie protokolu AEGIS: attention economy, inverzní marketing a user-first logika digitálního imunitního systému.",
       path: "/ai-guard/philosophy",
-      image: "/gallery/cat-moon-silhouette.png",
+      image: "/og/protokol-aegis.png",
     },
     schema: {
       as: "webPage",
@@ -109,7 +109,7 @@ const pageSeo: Record<
       description:
         "Attention economy, inverzní marketing a user-first logika protokolu AEGIS.",
       path: "/ai-guard/philosophy",
-      image: "/gallery/cat-moon-silhouette.png",
+      image: "/og/protokol-aegis.png",
     },
   },
   detection: {
@@ -118,7 +118,7 @@ const pageSeo: Record<
       description:
         "Vizuální, sémantická a kódová vrstva protokolu AEGIS spojují obraz, text a chování skriptů do jednoho obranného verdiktu.",
       path: "/ai-guard/detection",
-      image: "/gallery/cat-closeup.png",
+      image: "/og/protokol-aegis.png",
     },
     schema: {
       as: "webPage",
@@ -126,7 +126,7 @@ const pageSeo: Record<
       description:
         "Multimodální pipeline kombinující obraz, text a kód do jednoho obranného verdiktu.",
       path: "/ai-guard/detection",
-      image: "/gallery/cat-closeup.png",
+      image: "/og/protokol-aegis.png",
     },
   },
   defense: {
@@ -135,7 +135,7 @@ const pageSeo: Record<
       description:
         "Fog Screen, data poisoning, zen overlay a režimy zásahu protokolu AEGIS pro aktivní obranu proti digitální manipulaci.",
       path: "/ai-guard/defense",
-      image: "/gallery/neon-eclipse.png",
+      image: "/og/protokol-aegis.png",
     },
     schema: {
       as: "webPage",
@@ -143,7 +143,7 @@ const pageSeo: Record<
       description:
         "Aktivní obrana protokolu AEGIS: fog screen, zen overlay a řízené režimy intervence.",
       path: "/ai-guard/defense",
-      image: "/gallery/neon-eclipse.png",
+      image: "/og/protokol-aegis.png",
     },
   },
   build: {
@@ -152,7 +152,7 @@ const pageSeo: Record<
       description:
         "On-premise architektura protokolu AEGIS: HGX H100, air-gapped inference, Dataset Zla a fine-tuning modelu The Skeptic.",
       path: "/ai-guard/build",
-      image: "/gallery/cat-nebula-01.png",
+      image: "/og/protokol-aegis.png",
     },
     schema: {
       as: "webPage",
@@ -160,7 +160,7 @@ const pageSeo: Record<
       description:
         "HGX H100, air-gapped inference a roadmap od Datasetu Zla po model The Skeptic.",
       path: "/ai-guard/build",
-      image: "/gallery/cat-nebula-01.png",
+      image: "/og/protokol-aegis.png",
     },
   },
   results: {
@@ -169,7 +169,7 @@ const pageSeo: Record<
       description:
         "Vizualizace očekávaného růstu efektivity, snížení rizik a návratnosti investice po implementaci řešení v ekosystému AEGIS pomocí Once UI chart komponent.",
       path: "/expected-results",
-      image: "/gallery/neon-frame.png",
+      image: "/og/aegis-results.png",
     },
     schema: {
       as: "webPage",
@@ -177,7 +177,7 @@ const pageSeo: Record<
       description:
         "Analytická page s projekcí výkonu v čase, srovnáním rizik a strukturou přínosů.",
       path: "/expected-results",
-      image: "/gallery/neon-frame.png",
+      image: "/og/aegis-results.png",
     },
   },
 };
