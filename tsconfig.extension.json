@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "types": ["chrome"],
+    "lib": ["dom", "dom.iterable", "esnext"]
+  },
+  "include": [
+    "extension/**/*.js",
+    "src/lib/ai-guard/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

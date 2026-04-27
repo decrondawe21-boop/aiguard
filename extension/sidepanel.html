@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Bodyguard | Live System</title>
+    <link rel="stylesheet" href="./sidepanel.css" />
+  </head>
+  <body>
+    <nav class="panel-nav">
+      <div class="panel-nav__brand">
+        <span class="status-pulse"></span>
+        <span class="panel-nav__title">BODYGUARD_V3.1.LIVE</span>
+      </div>
+      <div class="panel-nav__tabs">
+        <button class="nav-btn active" data-tab-target="overview">System</button>
+        <button class="nav-btn" data-tab-target="live-scan">Live Scan</button>
+        <button class="nav-btn" data-tab-target="analytics">Analytics</button>
+      </div>
+    </nav>
+
+    <main class="panel-main">
+      <section id="overview" class="tab-content active">
+        <div class="panel-grid panel-grid--overview">
+          <div class="cyber-card panel-hero">
+            <span class="panel-eyebrow">Cognitive Shield</span>
+            <h1 class="panel-title">COG_NEURAL_SHIELD</h1>
+            <p class="panel-copy">
+              Váš osobní digitální imunitní systém. Detekuje, analyzuje a
+              neutralizuje psychologickou manipulaci v reálném čase.
+            </p>
+
+            <div class="panel-actions">
+              <button id="start-protection" class="panel-button panel-button--primary">
+                Start Protection
+              </button>
+              <button id="open-scan-tab" class="panel-button panel-button--ghost">
+                Live Scan
+              </button>
+            </div>
+
+            <div class="metric-grid">
+              <article class="metric-card">
+                <span class="metric-card__label">Neural Load</span>
+                <strong class="metric-card__value">14.2</strong>
+                <span class="metric-card__meta">ms / req</span>
+              </article>
+              <article class="metric-card">
+                <span class="metric-card__label">Threats Blocked</span>
+                <strong id="counter-threats" class="metric-card__value">0</strong>
+                <span class="metric-card__meta">session total</span>
+              </article>
+            </div>
+          </div>
+
+          <div class="cyber-card panel-terminal">
+            <div class="panel-terminal__header">
+              <span>SYSTEM_LOGS_STREAM</span>
+              <span class="panel-terminal__live">LIVE</span>
+            </div>
+            <div id="log-container" class="panel-terminal__body"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="live-scan" class="tab-content">
+        <div class="cyber-card panel-scan">
+          <span class="panel-eyebrow">AI Browser Simulation</span>
+          <h2 class="panel-section-title">Live Cognitive Scan</h2>
+
+          <div class="scan-surface">
+            <div id="scan-line" class="scan-surface__line"></div>
+            <div id="web-content" class="scan-surface__content">
+              <div class="scan-surface__skeleton w-80"></div>
+              <div class="scan-surface__skeleton w-56"></div>
+              <div id="detected-threat" class="scan-threat">
+                DETECTED: URGENCY_BANNER_MODAL
+              </div>
+              <div class="scan-surface__skeleton w-72"></div>
+            </div>
+          </div>
+
+          <div class="panel-actions panel-actions--scan">
+            <button id="run-scan" class="panel-button panel-button--primary">
+              Run Scan
+            </button>
+            <button id="refresh-threats" class="panel-button panel-button--ghost">
+              Refresh Threats
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="analytics" class="tab-content">
+        <div class="panel-grid panel-grid--analytics">
+          <div class="cyber-card analytics-card">
+            <span class="panel-eyebrow">Threat Distribution</span>
+            <div id="analytics-breakdown" class="analytics-breakdown"></div>
+          </div>
+
+          <div class="cyber-card analytics-card">
+            <span class="panel-eyebrow">Security Score</span>
+            <div class="security-score">
+              <strong id="security-score" class="security-score__value">100</strong>
+              <span class="security-score__label">System Integrity Score</span>
+            </div>
+            <div class="score-bars">
+              <div class="score-row">
+                <div class="score-row__meta">
+                  <span>Privacy</span>
+                  <span id="privacy-score">100%</span>
+                </div>
+                <div class="score-row__bar"><div id="privacy-fill" class="score-row__fill"></div></div>
+              </div>
+              <div class="score-row">
+                <div class="score-row__meta">
+                  <span>Cognitive Load</span>
+                  <span id="cognitive-score">96%</span>
+                </div>
+                <div class="score-row__bar"><div id="cognitive-fill" class="score-row__fill"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cyber-card analytics-card analytics-card--wide">
+            <span class="panel-eyebrow">Detected Threats</span>
+            <div id="threat-list" class="threat-list"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./sidepanel.js"></script>
+  </body>
+  </html>
