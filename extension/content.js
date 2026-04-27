@@ -31,10 +31,49 @@ const THREAT_PATTERNS = {
 
 const BADGE_ATTRIBUTE = "data-ai-bodyguard-detected";
 const REWRITE_ATTRIBUTE = "data-ai-bodyguard-rewritten";
+const SUPPRESSION_ATTRIBUTE = "data-ai-bodyguard-suppressed";
+const COOKIE_NORMALIZED_ATTRIBUTE = "data-ai-bodyguard-cookie-normalized";
+const COOKIE_TEXT_ATTRIBUTE = "data-ai-bodyguard-cookie-original-text";
 const THREAT_ID_ATTRIBUTE = "data-ai-bodyguard-threat-id";
 const THREAT_TYPE_ATTRIBUTE = "data-ai-bodyguard-threat-type";
 const ORIGINAL_TEXT_ATTRIBUTE = "data-ai-bodyguard-original-text";
+const ORIGINAL_STYLE_ATTRIBUTE = "data-ai-bodyguard-original-style";
 const INTERVENTION_ATTRIBUTE = "data-ai-bodyguard-intervention";
+
+const COOKIE_BANNER_SELECTOR = [
+  "[id*='cookie' i]",
+  "[class*='cookie' i]",
+  "[id*='consent' i]",
+  "[class*='consent' i]",
+  "[aria-label*='cookie' i]",
+  "[aria-label*='consent' i]",
+].join(", ");
+
+const COOKIE_ACCEPT_PATTERNS = [
+  /accept all/i,
+  /allow all/i,
+  /agree/i,
+  /souhlasím/i,
+  /přijmout vše/i,
+  /povolit vše/i,
+];
+
+const COOKIE_REJECT_PATTERNS = [
+  /reject/i,
+  /decline/i,
+  /odmítnout/i,
+  /jen nezbytné/i,
+  /essential only/i,
+];
+
+const COOKIE_SETTINGS_PATTERNS = [
+  /settings/i,
+  /preferences/i,
+  /manage/i,
+  /upravit/i,
+  /nastavení/i,
+  /volby/i,
+];
 
 /** @type {ReturnType<typeof globalThis.setTimeout> | undefined} */
 let scanTimer;
@@ -127,6 +166,163 @@ function getNeutralizedCopy(type, originalText) {
 
 /**
  * @param {HTMLElement} element
+ */
+function storeOriginalInlineStyle(element) {
+  if (!element.hasAttribute(ORIGINAL_STYLE_ATTRIBUTE)) {
+    element.setAttribute(ORIGINAL_STYLE_ATTRIBUTE, element.getAttribute("style") ?? "");
+  }
+}
+
+/**
+ * @param {HTMLElement} element
+ * @param {"rewrite" | "suppress"} intervention
+ */
+function appendIntervention(element, intervention) {
+  const current = element.getAttribute(INTERVENTION_ATTRIBUTE) ?? "";
+  const parts = current
+    .split("+")
+    .map((entry) => entry.trim())
+    .filter(Boolean);
+
+  if (!parts.includes(intervention)) {
+    parts.push(intervention);
+  }
+
+  element.setAttribute(INTERVENTION_ATTRIBUTE, parts.join("+"));
+}
+
+/**
+ * @param {HTMLElement} element
+ * @param {string} nextText
+ */
+function rewriteElementText(element, nextText) {
+  if (!element.hasAttribute(COOKIE_TEXT_ATTRIBUTE)) {
+    element.setAttribute(COOKIE_TEXT_ATTRIBUTE, element.textContent?.trim() ?? "");
+  }
+
+  element.textContent = nextText;
+}
+
+/**
+ * @param {HTMLElement} element
+ * @param {"primary" | "secondary" | "tertiary"} emphasis
+ */
+function softenCookieControl(element, emphasis) {
+  storeOriginalInlineStyle(element);
+  element.style.transition = "none";
+  element.style.animation = "none";
+  element.style.boxShadow = "none";
+  element.style.transform = "none";
+
+  if (emphasis === "primary") {
+    element.style.filter = "saturate(0.65) brightness(1.01)";
+    element.style.opacity = "0.82";
+  } else if (emphasis === "secondary") {
+    element.style.filter = "saturate(0.85) brightness(1.02)";
+    element.style.opacity = "0.92";
+  } else {
+    element.style.filter = "saturate(0.95) brightness(1.04)";
+    element.style.opacity = "0.96";
+  }
+}
+
+/**
+ * @param {Element} root
+ * @returns {HTMLElement[]}
+ */
+function getCookieControls(root) {
+  /** @type {HTMLElement[]} */
+  const controls = [];
+
+  root.querySelectorAll("button, [role='button'], a").forEach((node) => {
+    if (node instanceof HTMLElement && node.textContent?.trim()) {
+      controls.push(node);
+    }
+  });
+
+  return controls;
+}
+
+/**
+ * @param {string} text
+ * @param {RegExp[]} patterns
+ * @returns {boolean}
+ */
+function matchesAny(text, patterns) {
+  return patterns.some((pattern) => pattern.test(text));
+}
+
+/**
+ * @returns {void}
+ */
+function normalizeCookieBanners() {
+  /** @type {NodeListOf<HTMLElement>} */
+  const banners = document.querySelectorAll(COOKIE_BANNER_SELECTOR);
+
+  banners.forEach((banner) => {
+    if (banner.getAttribute(COOKIE_NORMALIZED_ATTRIBUTE) === "true") {
+      return;
+    }
+
+    const controls = getCookieControls(banner);
+    const acceptAllControl = controls.find((control) =>
+      matchesAny(control.textContent?.trim() ?? "", COOKIE_ACCEPT_PATTERNS),
+    );
+    const rejectControl = controls.find((control) =>
+      matchesAny(control.textContent?.trim() ?? "", COOKIE_REJECT_PATTERNS),
+    );
+    const settingsControl = controls.find((control) =>
+      matchesAny(control.textContent?.trim() ?? "", COOKIE_SETTINGS_PATTERNS),
+    );
+
+    if (!acceptAllControl && !rejectControl && !settingsControl) {
+      return;
+    }
+
+    banner.setAttribute(COOKIE_NORMALIZED_ATTRIBUTE, "true");
+    banner.title = "AEGIS: Cookie banner byl upraven pro informovanější volbu soukromí.";
+
+    if (acceptAllControl) {
+      rewriteElementText(acceptAllControl, "Přijmout vše (včetně marketingu)");
+      softenCookieControl(acceptAllControl, "primary");
+    }
+
+    if (rejectControl) {
+      rewriteElementText(rejectControl, "Odmítnout nepovinné");
+      softenCookieControl(rejectControl, "tertiary");
+    }
+
+    if (settingsControl) {
+      rewriteElementText(settingsControl, "Upravit volby soukromí");
+      softenCookieControl(settingsControl, "secondary");
+    }
+  });
+}
+
+/**
+ * @param {HTMLElement} element
+ * @param {ThreatType} type
+ */
+function applySuppression(element, type) {
+  if (type !== "urgency" || element.getAttribute(SUPPRESSION_ATTRIBUTE) === "true") {
+    return;
+  }
+
+  storeOriginalInlineStyle(element);
+  element.setAttribute(SUPPRESSION_ATTRIBUTE, "true");
+  appendIntervention(element, "suppress");
+
+  // Tone down urgency treatments without removing the content from the page flow.
+  element.style.animation = "none";
+  element.style.transition = "none";
+  element.style.transform = "none";
+  element.style.boxShadow = "none";
+  element.style.opacity = "0.78";
+  element.style.filter = "saturate(0.55) contrast(0.96) brightness(1.03)";
+}
+
+/**
+ * @param {HTMLElement} element
  * @param {ThreatType} type
  * @param {string} originalText
  * @returns {string}
@@ -135,11 +331,12 @@ function applyRewrite(element, type, originalText) {
   const threatId = element.getAttribute(THREAT_ID_ATTRIBUTE) ?? crypto.randomUUID();
   const neutralizedText = getNeutralizedCopy(type, originalText);
 
+  storeOriginalInlineStyle(element);
   element.setAttribute(THREAT_ID_ATTRIBUTE, threatId);
   element.setAttribute(THREAT_TYPE_ATTRIBUTE, type);
   element.setAttribute(ORIGINAL_TEXT_ATTRIBUTE, originalText);
   element.setAttribute(REWRITE_ATTRIBUTE, "true");
-  element.setAttribute(INTERVENTION_ATTRIBUTE, "rewrite");
+  appendIntervention(element, "rewrite");
   element.textContent = neutralizedText;
 
   return threatId;
@@ -183,6 +380,7 @@ function getStoredThreatRecord(element, source) {
  * @param {ThreatType} type
  */
 function highlightThreat(element, type) {
+  storeOriginalInlineStyle(element);
   element.style.outline = "2px dashed #ef4444";
   element.style.backgroundColor = "rgba(239, 68, 68, 0.1)";
   element.title = `AEGIS: Detekována technika ${type}`;
@@ -214,6 +412,8 @@ function getPageContext(source) {
  * @returns {ContentThreatRecord[]}
  */
 function scanForCognitiveThreats(source = "auto") {
+  normalizeCookieBanners();
+
   /** @type {NodeListOf<HTMLElement>} */
   const allElements = document.querySelectorAll("p, span, div, button");
   /** @type {ContentThreatRecord[]} */
@@ -223,6 +423,7 @@ function scanForCognitiveThreats(source = "auto") {
     const storedThreat = getStoredThreatRecord(element, source);
 
     if (storedThreat) {
+      applySuppression(element, storedThreat.type);
       highlightThreat(element, storedThreat.type);
       threatsFound.push(storedThreat);
       return;
@@ -242,6 +443,7 @@ function scanForCognitiveThreats(source = "auto") {
         for (const pattern of patterns) {
           if (pattern.test(text)) {
             const threatId = applyRewrite(element, type, text);
+            applySuppression(element, type);
             highlightThreat(element, type);
             threatsFound.push({
               id: threatId,

@@ -42,9 +42,9 @@
 - Dokončeno: placeholder extension ikony byly nahrazené finální sadou (`16 / 48 / 128`) podle oficiálního AEGIS štítu.
 - Rozšířit `content.js` z highlight-only režimu na reálné zásahy:
   - Dokončeno: první bezpečný `rewrite` krok přepisuje urgency / scarcity / social proof do neutrálního copy a drží originál v `data-*` pro další scan i budoucí revert.
+  - Dokončeno: `urgency` patterny teď dostávají i jemný suppression pass, který tlumí animaci / glow / tlakový styling bez rozbití layoutu.
   - neutral rewrite copy
-  - suppression urgency prvků
-  - cookie logic overrides
+  - Dokončeno: první cookie-banner override krok přepisuje accept/settings/reject copy do srozumitelnější formy a tlumí nátlakový vizuál bez automatického consent zásahu.
 - Napojit extension UI na skutečný lokální inference endpoint místo simulace.
 - Ověřit unpacked extension flow v Chrome:
   - side panel
