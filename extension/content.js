@@ -30,6 +30,11 @@ const THREAT_PATTERNS = {
 };
 
 const BADGE_ATTRIBUTE = "data-ai-bodyguard-detected";
+const REWRITE_ATTRIBUTE = "data-ai-bodyguard-rewritten";
+const THREAT_ID_ATTRIBUTE = "data-ai-bodyguard-threat-id";
+const THREAT_TYPE_ATTRIBUTE = "data-ai-bodyguard-threat-type";
+const ORIGINAL_TEXT_ATTRIBUTE = "data-ai-bodyguard-original-text";
+const INTERVENTION_ATTRIBUTE = "data-ai-bodyguard-intervention";
 
 /** @type {ReturnType<typeof globalThis.setTimeout> | undefined} */
 let scanTimer;
@@ -103,13 +108,84 @@ function normalizeThreats(threats) {
 }
 
 /**
+ * @param {ThreatType} type
+ * @param {string} originalText
+ * @returns {string}
+ */
+function getNeutralizedCopy(type, originalText) {
+  switch (type) {
+    case "urgency":
+      return "Prodejce uvádí časově omezenou nabídku. Doporučeno ověřit podmínky bez tlaku na okamžitou akci.";
+    case "scarcity":
+      return "Prodejce uvádí omezenou dostupnost. Doporučeno ověřit skutečný stav zásob a porovnat nabídku.";
+    case "social_proof":
+      return "Stránka používá sociální důkaz jako nákupní stimul. Berte tvrzení o aktivitě ostatních s rezervou.";
+    default:
+      return originalText;
+  }
+}
+
+/**
+ * @param {HTMLElement} element
+ * @param {ThreatType} type
+ * @param {string} originalText
+ * @returns {string}
+ */
+function applyRewrite(element, type, originalText) {
+  const threatId = element.getAttribute(THREAT_ID_ATTRIBUTE) ?? crypto.randomUUID();
+  const neutralizedText = getNeutralizedCopy(type, originalText);
+
+  element.setAttribute(THREAT_ID_ATTRIBUTE, threatId);
+  element.setAttribute(THREAT_TYPE_ATTRIBUTE, type);
+  element.setAttribute(ORIGINAL_TEXT_ATTRIBUTE, originalText);
+  element.setAttribute(REWRITE_ATTRIBUTE, "true");
+  element.setAttribute(INTERVENTION_ATTRIBUTE, "rewrite");
+  element.textContent = neutralizedText;
+
+  return threatId;
+}
+
+/**
+ * @param {HTMLElement} element
+ * @param {ThreatSource} source
+ * @returns {ContentThreatRecord | null}
+ */
+function getStoredThreatRecord(element, source) {
+  const threatId = element.getAttribute(THREAT_ID_ATTRIBUTE);
+  const type = element.getAttribute(THREAT_TYPE_ATTRIBUTE);
+  const originalText = element.getAttribute(ORIGINAL_TEXT_ATTRIBUTE);
+
+  if (!threatId || !type || !originalText) {
+    return null;
+  }
+
+  /** @type {ThreatType | null} */
+  const normalizedType =
+    type === "urgency" || type === "scarcity" || type === "social_proof" ? type : null;
+
+  if (!normalizedType) {
+    return null;
+  }
+
+  return {
+    id: threatId,
+    type: normalizedType,
+    text: originalText,
+    source,
+    selector: createElementSelector(element),
+    confidence: getThreatConfidence(normalizedType),
+    severity: getThreatSeverity(normalizedType),
+  };
+}
+
+/**
  * @param {HTMLElement} element
  * @param {ThreatType} type
  */
 function highlightThreat(element, type) {
   element.style.outline = "2px dashed #ef4444";
   element.style.backgroundColor = "rgba(239, 68, 68, 0.1)";
-  element.title = `AI Bodyguard: Detekována technika ${type}`;
+  element.title = `AEGIS: Detekována technika ${type}`;
 
   if (!element.getAttribute(BADGE_ATTRIBUTE)) {
     const shieldBadge = document.createElement("span");
@@ -144,6 +220,14 @@ function scanForCognitiveThreats(source = "auto") {
   const threatsFound = [];
 
   allElements.forEach((element) => {
+    const storedThreat = getStoredThreatRecord(element, source);
+
+    if (storedThreat) {
+      highlightThreat(element, storedThreat.type);
+      threatsFound.push(storedThreat);
+      return;
+    }
+
     if (
       element.innerText &&
       element.innerText.length < 200 &&
@@ -157,9 +241,10 @@ function scanForCognitiveThreats(source = "auto") {
       for (const [type, patterns] of entries) {
         for (const pattern of patterns) {
           if (pattern.test(text)) {
+            const threatId = applyRewrite(element, type, text);
             highlightThreat(element, type);
             threatsFound.push({
-              id: crypto.randomUUID(),
+              id: threatId,
               type,
               text,
               source,
@@ -232,4 +317,4 @@ window.addEventListener("load", () => {
   });
 });
 
-console.log("🛡️ AI Bodyguard: Content script aktivní.");
+console.log("🛡️ AEGIS: Content script aktivní.");

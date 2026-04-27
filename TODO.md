@@ -41,6 +41,7 @@
 - Dokončeno: je připravený volitelný `inference-bridge.js` pro lokální endpoint přes `chrome.storage.local` config.
 - Dokončeno: placeholder extension ikony byly nahrazené finální sadou (`16 / 48 / 128`) podle oficiálního AEGIS štítu.
 - Rozšířit `content.js` z highlight-only režimu na reálné zásahy:
+  - Dokončeno: první bezpečný `rewrite` krok přepisuje urgency / scarcity / social proof do neutrálního copy a drží originál v `data-*` pro další scan i budoucí revert.
   - neutral rewrite copy
   - suppression urgency prvků
   - cookie logic overrides
