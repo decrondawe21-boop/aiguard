@@ -159,10 +159,10 @@ export const aiGuardMegaMenuGroups: MegaMenuGroup[] = [
         title: "Featured",
         links: [
           {
-            label: "AI Guard Overview",
+            label: "AEGIS Overview",
             href: "/ai-guard",
             icon: "security",
-            description: "Rozcestník celé architektury AI Bodyguard a hlavních obranných vrstev.",
+            description: "Rozcestník celé architektury AEGIS a hlavních obranných vrstev.",
           },
           {
             label: "War for Attention",

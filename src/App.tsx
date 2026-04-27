@@ -569,7 +569,7 @@ function MobileMenuPanel({
               Navigation
             </Text>
             <Text as="h3" className="app-mobile-menu__title">
-              {activeTab === "brand" ? "Ultimate OS" : "AI Bodyguard"}
+              {activeTab === "brand" ? "Ultimate OS" : "AEGIS"}
             </Text>
           </div>
           <button
@@ -1125,7 +1125,7 @@ const philosophyCards = [
     eyebrow: "Inverse Marketing",
     title: "Optimalizovat systém pro uživatele",
     description:
-      "AI Bodyguard neřeší, jak z člověka vytěžit další klik. Řeší, proč ho rozhraní tlačí právě tímto směrem a jestli je ten tlak legitimní.",
+      "AEGIS neřeší, jak z člověka vytěžit další klik. Řeší, proč ho rozhraní tlačí právě tímto směrem a jestli je ten tlak legitimní.",
     highlights: [
       "Primární otázka není konverze, ale motivace obsahu.",
       "Systém hledá rozpor mezi zájmem uživatele a zájmem algoritmu.",
@@ -1138,7 +1138,7 @@ const philosophyCards = [
     eyebrow: "Attention Economy",
     title: "Pozornost jako zneužívaná surovina",
     description:
-      "Korporátní marketingová AI maximalizuje time on site, engagement a impulsivní akce. Bodyguard tuhle logiku převrací a dělá z pozornosti chráněný zdroj.",
+      "Korporátní marketingová AI maximalizuje time on site, engagement a impulsivní akce. AEGIS tuhle logiku převrací a dělá z pozornosti chráněný zdroj.",
     highlights: [
       "Dopaminové smyčky a sociální validace nejsou feature, ale útokový vektor.",
       "Manipulativní urgence je detekována jako bezpečnostní incident.",
@@ -1213,7 +1213,7 @@ const defenseCards = [
     highlights: [
       "Falešné zájmy se injectují do profilovacích toků jako noise.",
       "Uživatel se pro data brokery stává chaotickým a neprofitabilním cílem.",
-      "Bodyguard umí útočníka zasypat nejednoznačností místo čistých dat.",
+      "AEGIS umí útočníka zasypat nejednoznačností místo čistých dat.",
     ],
   },
   {
@@ -1607,7 +1607,7 @@ export default function App({ page = "ultimate" }: { page?: AppPage }) {
     }
 
     if (!isProjectLoading && !isLoading) {
-      setSystemLog("AI BODYGUARD PERIMETER: ACTIVE");
+      setSystemLog("AEGIS PERIMETER: ACTIVE");
     }
   }, [activeTab, isLoading, isProjectLoading]);
 
@@ -1996,7 +1996,7 @@ export default function App({ page = "ultimate" }: { page?: AppPage }) {
                   : ""
               }`}
             >
-              AI BODYGUARD
+              AEGIS
             </Link>
           </div>
 
@@ -2170,8 +2170,8 @@ export default function App({ page = "ultimate" }: { page?: AppPage }) {
                       theme={currentSurfaceTheme.title}
                       active={hoveredHeading === "bodyguard"}
                       as="h2"
-                      title="AI Bodyguard"
-                      description="Neural Defense System"
+                      title="AEGIS"
+                      description="Protokol: Aegis"
                       descriptionClassName="app-shell__hero-kicker font-mono text-xs uppercase tracking-[0.38em]"
                       onHoverStart={() => setHoveredHeading("bodyguard")}
                       onHoverEnd={() =>
@@ -2240,8 +2240,8 @@ export default function App({ page = "ultimate" }: { page?: AppPage }) {
               <HeroRevealPanel
                 variant="bodyguard"
                 theme={currentSurfaceTheme.panel}
-                eyebrow="Guard Function Layer"
-                title="AI Guard čte web jako psychologický útokový povrch."
+                eyebrow="Protokol: Aegis"
+                title="AEGIS čte web jako psychologický útokový povrch."
                 copy="Systém paralelně vyhodnocuje obraz, text i kód, rozpozná nátlakové patterny a podle režimu je označí, přepíše nebo zablokuje dřív, než začnou řídit úsudek uživatele."
                 href="/ai-guard/detection"
                 cta="Open detection layers"

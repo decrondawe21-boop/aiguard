@@ -2,6 +2,7 @@ import "@once-ui-system/core/css/styles.css";
 import "@once-ui-system/core/css/tokens.css";
 import "./globals.css";
 
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import classNames from "classnames";
 import { Column, ThemeInit } from "@once-ui-system/core";
@@ -11,7 +12,49 @@ import { Providers } from "./providers";
 import { defaultMeta } from "./resources/seo";
 import { fonts, themeInit } from "../resources/once-ui.config";
 
-export const metadata = Meta.generate(defaultMeta);
+const rootMetadata = Meta.generate(defaultMeta);
+
+export const metadata: Metadata = {
+  ...rootMetadata,
+  metadataBase: new URL(defaultMeta.baseURL),
+  applicationName: "AEGIS",
+  creator: "David Kozák",
+  publisher: "D-International",
+  category: "security",
+  alternates: {
+    canonical: "/",
+  },
+  keywords: [
+    "AEGIS",
+    "Protokol Aegis",
+    "Ultimate OS",
+    "AI obrana",
+    "detekce manipulace",
+    "digitální hygiena",
+    "privacy",
+    "attention defense",
+    "dark patterns",
+    "on-premise AI",
+  ],
+  openGraph: {
+    ...rootMetadata.openGraph,
+    siteName: "AEGIS",
+    locale: "cs_CZ",
+    url: defaultMeta.baseURL,
+  },
+  twitter: {
+    ...rootMetadata.twitter,
+    title: defaultMeta.title,
+    description: defaultMeta.description,
+    creator: "David Kozák",
+  },
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: ["/icon.svg"],
+    apple: [{ url: "/icon.svg", type: "image/svg+xml" }],
+  },
+  manifest: "/manifest.webmanifest",
+};
 
 type RootLayoutProps = {
   children: ReactNode;

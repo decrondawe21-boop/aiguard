@@ -83,7 +83,7 @@ const philosophyHighlights: SectionCardData[] = [
     eyebrow: "Inverse Marketing",
     title: "Optimalizovat systém pro uživatele",
     copy:
-      "Běžná marketingová AI tlačí člověka do kliknutí. AI Bodyguard se ptá, proč je tlak vytvořen právě teď a jestli je legitimní.",
+      "Běžná marketingová AI tlačí člověka do kliknutí. AEGIS se ptá, proč je tlak vytvořen právě teď a jestli je legitimní.",
     points: [
       "Konverze není cíl, ale podezřelý vedlejší efekt.",
       "Rozpor mezi zájmem uživatele a zájmem algoritmu se čte jako incident.",
@@ -109,7 +109,7 @@ const philosophyHighlights: SectionCardData[] = [
     eyebrow: "User-First Logic",
     title: "Digitální imunitní systém",
     copy:
-      "Bodyguard neblokuje jen bannery. Reverzně analyzuje psychologický tlak a dává uživateli kontrolu nad tím, jak tvrdě má systém zasáhnout.",
+      "AEGIS neblokuje jen bannery. Reverzně analyzuje psychologický tlak a dává uživateli kontrolu nad tím, jak tvrdě má systém zasáhnout.",
     points: [
       "Rozhoduje v kontextu, ne podle slepých blacklistů.",
       "Dokáže vysvětlit, proč je pattern škodlivý.",
@@ -167,7 +167,7 @@ const defenseCards: SectionCardData[] = [
     eyebrow: "Fog Screen",
     title: "Aktivní obrana místo pasivního štítu",
     copy:
-      "Po detekci útoku na pozornost nebo soukromí může AI Bodyguard přejít do protiopatření a rozbít jistotu sledovacích modelů.",
+      "Po detekci útoku na pozornost nebo soukromí může AEGIS přejít do protiopatření a rozbít jistotu sledovacích modelů.",
     points: [
       "Manipulativní vrstva se překryje klidnějším režimem.",
       "Tracker dostane konflikt místo čistého signálu.",
@@ -239,7 +239,7 @@ const buildCards: SectionCardData[] = [
     points: [
       "Inference, logy i zásahy zůstávají v on-premise zóně.",
       "Architektura počítá s vysokou citlivostí a izolací.",
-      "Bodyguard se sám nestává dalším trackerem.",
+      "AEGIS se sám nestává dalším trackerem.",
     ],
   },
 ];
@@ -373,7 +373,7 @@ function RadarCompareChart() {
           ],
           datasets: [
             {
-              label: "AI Bodyguard",
+              label: "AEGIS",
               data: [95, 100, 90, 96, 82],
               fill: true,
               backgroundColor: "rgba(34, 211, 238, 0.14)",
@@ -580,10 +580,10 @@ export function AiGuardLandingPage() {
     <section className="section-page">
       <div className="section-page__inner surface-frame surface-frame--cool">
         <SectionHero
-          eyebrow="AI Guard"
+          eyebrow="Protokol: Aegis"
           title="Architektura detekce manipulace"
-          copy="Tady už nezačíná brand prezentace, ale produktová mapa. Každá hlavní vrstva AI Bodyguardu má vlastní stránku a vlastní rozhodovací logiku."
-          badge={{ icon: "security", label: "Separated AI Guard" }}
+          copy="Tady už nezačíná brand prezentace, ale produktová mapa. Každá hlavní vrstva systému AEGIS má vlastní stránku a vlastní rozhodovací logiku."
+          badge={{ icon: "security", label: "Protokol: Aegis" }}
         />
 
         <div className="section-page__grid section-page__grid--landing">
@@ -596,7 +596,7 @@ export function AiGuardLandingPage() {
               Inverzní marketingová obrana
             </Text>
             <Text as="p" className="architecture-card__copy">
-              AI Bodyguard není filtr na bannery. Je to lokální autonomní agent, který čte rozhraní jako útokový povrch a neutralizuje psychologický tlak dřív, než se stane rozhodovacím kontextem.
+              AEGIS není filtr na bannery. Je to lokální autonomní agent, který čte rozhraní jako útokový povrch a neutralizuje psychologický tlak dřív, než se stane rozhodovacím kontextem.
             </Text>
 
             <div className="architecture-status-grid">
@@ -677,8 +677,8 @@ export function PhilosophyPage() {
         <SectionHero
           eyebrow="Philosophy"
           title="Inverzní marketing a válka o pozornost"
-          copy="Běžná marketingová AI optimalizuje uživatele pro systém. AI Bodyguard obrací logiku: optimalizuje systém pro uživatele a čte manipulaci jako útok na úsudek."
-          badge={{ icon: "security", label: "AI Bodyguard v2.1" }}
+          copy="Běžná marketingová AI optimalizuje uživatele pro systém. AEGIS obrací logiku: optimalizuje systém pro uživatele a čte manipulaci jako útok na úsudek."
+          badge={{ icon: "security", label: "AEGIS v2.1" }}
         />
 
         <div className="section-page__grid section-page__grid--philosophy">
@@ -691,7 +691,7 @@ export function PhilosophyPage() {
               Pozornost není metrika růstu
             </Text>
             <Text as="p" className="architecture-card__copy">
-              V AI Bodyguard architektuře je attention economy čtena jako konflikt zájmu. Když rozhraní těží strach, urgency nebo ego, systém to nevyhodnotí jako growth, ale jako bezpečnostní signál.
+              V architektuře AEGIS je attention economy čtena jako konflikt zájmu. Když rozhraní těží strach, urgency nebo ego, systém to nevyhodnotí jako growth, ale jako bezpečnostní signál.
             </Text>
             <div className="architecture-pill-row">
               <span className="architecture-pill">User First</span>
@@ -734,7 +734,7 @@ export function PhilosophyPage() {
                 Manipulace se nehodnotí podle formátu, ale podle motivace a očekávaného zásahu do úsudku.
               </Text>
               <Text as="p" className="architecture-card__point">
-                AI Bodyguard je navržený tak, aby uživateli vracel čas na rozhodnutí, ne další šok do feedu.
+                AEGIS je navržený tak, aby uživateli vracel čas na rozhodnutí, ne další šok do feedu.
               </Text>
               <Text as="p" className="architecture-card__point">
                 Rozhraní může být krásné, ale pokud těží úzkost a scarcity, systém jej označí jako hrozbu.
@@ -853,7 +853,7 @@ export function DefensePage() {
         <SectionHero
           eyebrow="Defense"
           title="Projekt Mlhová Clona"
-          copy="Bodyguard nemá být jen pasivní filtr. Po detekci útoku na pozornost nebo soukromí může přejít do protiopatření a rozbít jistotu trackerů i toxického copy."
+          copy="AEGIS nemá být jen pasivní filtr. Po detekci útoku na pozornost nebo soukromí může přejít do protiopatření a rozbít jistotu trackerů i toxického copy."
           badge={{ icon: "sparkle", label: "Active Defense" }}
         />
 

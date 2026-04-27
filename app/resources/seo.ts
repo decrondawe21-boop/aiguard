@@ -25,17 +25,18 @@ type SchemaProps = {
   author?: SeoAuthor;
 };
 
-const baseURL = "https://www.osobni.david-kozak.com";
+const baseURL = "https://aegis.d-international.eu";
+const authorURL = "https://www.david-kozak.com";
 
 const author = {
   name: "David Kozák",
-  url: baseURL,
+  url: authorURL,
 };
 
 const defaultMeta: MetaProps = {
-  title: "Ultimate OS | Digitální identita a AI obrana",
+  title: "AEGIS | Ultimate OS a protokol digitální obrany",
   description:
-    "Ultimate OS propojuje designovou identitu, prémiové rozhraní a architekturu AI Bodyguard pro ochranu pozornosti a soukromí.",
+    "AEGIS propojuje Ultimate OS, digitální identitu a lokální AI obranu proti manipulaci, digitálnímu nátlaku a sledování.",
   baseURL,
   type: "website",
   image: "/gallery/cat-neon-city.png",
@@ -44,13 +45,13 @@ const defaultMeta: MetaProps = {
 
 const defaultSchema: SchemaProps = {
   as: "website",
-  title: "Ultimate OS",
+  title: "AEGIS",
   description: defaultMeta.description,
   baseURL,
   path: "/",
   image: defaultMeta.image,
   author,
-  sameAs: [baseURL],
+  sameAs: [baseURL, authorURL],
 };
 
 const pageSeo: Record<
@@ -62,9 +63,9 @@ const pageSeo: Record<
 > = {
   ultimate: {
     meta: {
-      title: "Ultimate OS | Digitální identita a designová suverenita",
+      title: "Ultimate OS | Surface systému AEGIS",
       description:
-        "Ultimate OS je designový surface Davida Kozáka propojující digitální identitu, noční atmosféru a prémiové rozhraní postavené na Once UI.",
+        "Ultimate OS je prémiový designový surface systému AEGIS propojující digitální identitu, noční atmosféru a rozhraní postavené na Once UI.",
       path: "/",
       image: "/gallery/neon-frame.png",
     },
@@ -72,50 +73,50 @@ const pageSeo: Record<
       as: "website",
       title: "Ultimate OS",
       description:
-        "Designový surface propojující digitální identitu, noční atmosféru a prémiové rozhraní.",
+        "Designový surface systému AEGIS propojující digitální identitu, noční atmosféru a prémiové rozhraní.",
       path: "/",
       image: "/gallery/neon-frame.png",
     },
   },
   aiGuard: {
     meta: {
-      title: "AI Bodyguard | Architektura detekce manipulace",
+      title: "AEGIS | Protokol: Aegis",
       description:
-        "AI Bodyguard mapuje vrstvy detekce manipulace, aktivní obranu a on-premise AI infrastrukturu pro ochranu pozornosti a soukromí.",
+        "Protokol: Aegis mapuje vrstvy detekce manipulace, aktivní obranu a on-premise AI infrastrukturu pro ochranu pozornosti a soukromí.",
       path: "/ai-guard",
       image: "/gallery/cat-neon-city.png",
     },
     schema: {
       as: "webPage",
-      title: "AI Bodyguard",
+      title: "Protokol: Aegis",
       description:
-        "Architektura detekce manipulace a aktivní obrany proti digitálnímu nátlaku.",
+        "Architektura detekce manipulace a aktivní obrany protokolu AEGIS proti digitálnímu nátlaku.",
       path: "/ai-guard",
       image: "/gallery/cat-neon-city.png",
     },
   },
   philosophy: {
     meta: {
-      title: "AI Bodyguard Philosophy | Inverzní marketing a válka o pozornost",
+      title: "AEGIS Philosophy | Inverzní marketing a válka o pozornost",
       description:
-        "Filosofie AI Bodyguard: attention economy, inverzní marketing a user-first logika digitálního imunitního systému.",
+        "Filosofie protokolu AEGIS: attention economy, inverzní marketing a user-first logika digitálního imunitního systému.",
       path: "/ai-guard/philosophy",
       image: "/gallery/cat-moon-silhouette.png",
     },
     schema: {
       as: "webPage",
-      title: "AI Bodyguard Philosophy",
+      title: "AEGIS Philosophy",
       description:
-        "Attention economy, inverzní marketing a user-first logika AI Bodyguardu.",
+        "Attention economy, inverzní marketing a user-first logika protokolu AEGIS.",
       path: "/ai-guard/philosophy",
       image: "/gallery/cat-moon-silhouette.png",
     },
   },
   detection: {
     meta: {
-      title: "AI Bodyguard Detection | Triad of Truth",
+      title: "AEGIS Detection | Triad of Truth",
       description:
-        "Vizuální, sémantická a kódová vrstva AI Bodyguardu spojují obraz, text a chování skriptů do jednoho obranného verdiktu.",
+        "Vizuální, sémantická a kódová vrstva protokolu AEGIS spojují obraz, text a chování skriptů do jednoho obranného verdiktu.",
       path: "/ai-guard/detection",
       image: "/gallery/cat-closeup.png",
     },
@@ -130,9 +131,9 @@ const pageSeo: Record<
   },
   defense: {
     meta: {
-      title: "AI Bodyguard Defense | Projekt Mlhová Clona",
+      title: "AEGIS Defense | Projekt Mlhová Clona",
       description:
-        "Fog Screen, data poisoning, zen overlay a režimy zásahu pro aktivní obranu proti digitální manipulaci.",
+        "Fog Screen, data poisoning, zen overlay a režimy zásahu protokolu AEGIS pro aktivní obranu proti digitální manipulaci.",
       path: "/ai-guard/defense",
       image: "/gallery/neon-eclipse.png",
     },
@@ -140,22 +141,22 @@ const pageSeo: Record<
       as: "webPage",
       title: "Projekt Mlhová Clona",
       description:
-        "Aktivní obrana AI Bodyguardu: fog screen, zen overlay a řízené režimy intervence.",
+        "Aktivní obrana protokolu AEGIS: fog screen, zen overlay a řízené režimy intervence.",
       path: "/ai-guard/defense",
       image: "/gallery/neon-eclipse.png",
     },
   },
   build: {
     meta: {
-      title: "AI Bodyguard Build | HGX H100 a The Skeptic",
+      title: "AEGIS Build | HGX H100 a The Skeptic",
       description:
-        "On-premise architektura AI Bodyguardu: HGX H100, air-gapped inference, Dataset Zla a fine-tuning modelu The Skeptic.",
+        "On-premise architektura protokolu AEGIS: HGX H100, air-gapped inference, Dataset Zla a fine-tuning modelu The Skeptic.",
       path: "/ai-guard/build",
       image: "/gallery/cat-nebula-01.png",
     },
     schema: {
       as: "webPage",
-      title: "AI Bodyguard Build",
+      title: "AEGIS Build",
       description:
         "HGX H100, air-gapped inference a roadmap od Datasetu Zla po model The Skeptic.",
       path: "/ai-guard/build",
@@ -164,15 +165,15 @@ const pageSeo: Record<
   },
   results: {
     meta: {
-      title: "Expected Results | Analýza očekávaných výsledků",
+      title: "AEGIS Results | Analýza očekávaných výsledků",
       description:
-        "Vizualizace očekávaného růstu efektivity, snížení rizik a návratnosti investice po implementaci řešení pomocí Once UI chart komponent.",
+        "Vizualizace očekávaného růstu efektivity, snížení rizik a návratnosti investice po implementaci řešení v ekosystému AEGIS pomocí Once UI chart komponent.",
       path: "/expected-results",
       image: "/gallery/neon-frame.png",
     },
     schema: {
       as: "webPage",
-      title: "Expected Results",
+      title: "AEGIS Results",
       description:
         "Analytická page s projekcí výkonu v čase, srovnáním rizik a strukturou přínosů.",
       path: "/expected-results",

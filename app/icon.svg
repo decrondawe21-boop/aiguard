@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title>AEGIS favicon</title>
+  <desc>Shield icon with AI monogram and circuit lines for the AEGIS protocol.</desc>
+  <defs>
+    <linearGradient id="shieldStroke" x1="36" y1="28" x2="214" y2="224" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6ee7f9"/>
+      <stop offset="0.52" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#08163b"/>
+    </linearGradient>
+    <linearGradient id="circuitStroke" x1="72" y1="88" x2="176" y2="206" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2dd4bf"/>
+      <stop offset="1" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+  <path
+    d="M128 20C101 43 71 49 46 57v78c0 45 24 84 82 111 58-27 82-66 82-111V57c-25-8-55-14-82-37Z"
+    fill="none"
+    stroke="url(#shieldStroke)"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="12"
+  />
+  <path
+    d="M82 150v-24m-16 32v-18m48 22v-34m20 48v-30m24 22v-22"
+    fill="none"
+    stroke="url(#circuitStroke)"
+    stroke-linecap="round"
+    stroke-width="7"
+  />
+  <path
+    d="M76 122c16 10 28 20 42 38m0-22c12-10 24-17 40-21m-56 60c14-24 31-39 60-55"
+    fill="none"
+    stroke="url(#circuitStroke)"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="7"
+  />
+  <circle cx="82" cy="126" r="7" fill="#0f274f"/>
+  <circle cx="66" cy="141" r="7" fill="#0f274f"/>
+  <circle cx="114" cy="128" r="7" fill="#0f274f"/>
+  <circle cx="176" cy="147" r="7" fill="#0f274f"/>
+  <circle cx="200" cy="124" r="7" fill="#0f274f"/>
+  <text
+    x="128"
+    y="116"
+    fill="#091631"
+    font-family="Segoe UI, Inter, Arial, sans-serif"
+    font-size="52"
+    font-weight="800"
+    letter-spacing="-4"
+    text-anchor="middle"
+  >AI</text>
+</svg>
