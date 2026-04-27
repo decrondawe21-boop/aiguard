@@ -45,7 +45,7 @@
   - Dokončeno: `urgency` patterny teď dostávají i jemný suppression pass, který tlumí animaci / glow / tlakový styling bez rozbití layoutu.
   - neutral rewrite copy
   - Dokončeno: první cookie-banner override krok přepisuje accept/settings/reject copy do srozumitelnější formy a tlumí nátlakový vizuál bez automatického consent zásahu.
-- Napojit extension UI na skutečný lokální inference endpoint místo simulace.
+- Dokončeno: extension bridge má teď skutečný lokální endpoint přes `/api/aegis/evaluate`, bezpečné defaulty na localhost a fail-soft fallback do AEGIS local policy engine, když Ollama není dostupná.
 - Ověřit unpacked extension flow v Chrome:
   - side panel
   - background messaging

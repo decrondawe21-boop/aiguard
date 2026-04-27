@@ -42,6 +42,8 @@ let currentThreats = [];
 let currentEvaluation = null;
 /** @type {{ timestamp: string; message: string }[]} */
 const logs = [];
+/** @type {string | null} */
+let lastEvaluationLogKey = null;
 
 tabButtons.forEach((button) => {
   button.addEventListener("click", () => switchTab(button.dataset.tabTarget ?? "", button));
@@ -234,14 +236,31 @@ function renderThreats() {
  * @param {InferenceEvaluationResponse} evaluation
  */
 function appendInferenceLog(evaluation) {
+  const evaluationKey = JSON.stringify(evaluation);
+  if (lastEvaluationLogKey === evaluationKey) {
+    return;
+  }
+
+  lastEvaluationLogKey = evaluationKey;
+
   if (evaluation.ok) {
+    const actionSummary = evaluation.suggestions
+      .map((suggestion) => `${suggestion.action}:${suggestion.threatId}`)
+      .join(", ");
+
     appendLog(
-      `Inference bridge: ${evaluation.suggestions.length} suggestion(s) from ${evaluation.model}.`,
+      `Inference bridge: ${evaluation.suggestions.length} suggestion(s) from ${evaluation.model}${actionSummary ? ` [${actionSummary}]` : ""}.`,
     );
+    evaluation.auditTrail.forEach((entry) => {
+      appendLog(`${entry.stage.toUpperCase()} ${entry.level.toUpperCase()}: ${entry.message}`);
+    });
     return;
   }
 
   appendLog(`Inference bridge unavailable: ${evaluation.error}`);
+  evaluation.auditTrail.forEach((entry) => {
+    appendLog(`${entry.stage.toUpperCase()} ${entry.level.toUpperCase()}: ${entry.message}`);
+  });
 }
 
 /**

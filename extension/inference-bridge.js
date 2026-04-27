@@ -13,22 +13,44 @@
 /** @type {InferenceBridgeConfig} */
 const defaultBridgeConfig = {
   enabled: false,
-  provider: "disabled",
-  interventionMode: "flag",
-  timeoutMs: 3500,
+  provider: "ollama",
+  endpoint: "http://127.0.0.1:3000/api/aegis/evaluate",
+  model: "llama3.1:8b",
+  interventionMode: "rewrite",
+  timeoutMs: 7000,
 };
+
+/**
+ * @param {unknown} value
+ * @returns {Partial<InferenceBridgeConfig>}
+ */
+function normalizeStoredBridgeConfig(value) {
+  if (!value || typeof value !== "object") {
+    return {};
+  }
+
+  return /** @type {Partial<InferenceBridgeConfig>} */ (value);
+}
 
 async function getBridgeConfig() {
   const stored = await chrome.storage.local.get("inferenceBridge");
-  const value = stored.inferenceBridge;
+  const value = normalizeStoredBridgeConfig(stored.inferenceBridge);
 
-  if (!value || typeof value !== "object") {
+  if (!Object.keys(value).length) {
     return defaultBridgeConfig;
   }
 
   return {
     ...defaultBridgeConfig,
     ...value,
+    endpoint:
+      typeof value?.endpoint === "string" && value.endpoint.trim()
+        ? value.endpoint
+        : defaultBridgeConfig.endpoint,
+    model:
+      typeof value?.model === "string" && value.model.trim()
+        ? value.model
+        : defaultBridgeConfig.model,
   };
 }
 
@@ -38,6 +60,10 @@ async function getBridgeConfig() {
  */
 export async function evaluateThreatBundle(input) {
   const config = await getBridgeConfig();
+
+  if (!input.threats.length) {
+    return null;
+  }
 
   if (!config.enabled || config.provider === "disabled" || !config.endpoint) {
     return null;
@@ -55,7 +81,7 @@ export async function evaluateThreatBundle(input) {
   };
 
   const controller = new AbortController();
-  const timeoutId = globalThis.setTimeout(() => controller.abort(), config.timeoutMs ?? 3500);
+  const timeoutId = globalThis.setTimeout(() => controller.abort(), config.timeoutMs ?? 7000);
 
   try {
     const response = await fetch(config.endpoint, {

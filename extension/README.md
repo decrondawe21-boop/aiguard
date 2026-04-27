@@ -35,6 +35,31 @@ Tato složka obsahuje první funkční kostru pro browser extension:
 
 Bridge je záměrně volitelný. Pokud není v `chrome.storage.local` uložená konfigurace `inferenceBridge`, extension zůstává v heuristickém režimu.
 
+Projekt teď obsahuje i lokální endpoint:
+
+- `http://127.0.0.1:3000/api/aegis/evaluate`
+
+To znamená, že když běží Next app přes `npm run dev`, stačí bridge jen zapnout a není nutné psát vlastní endpoint URL.
+
+Příklad minimální konfigurace:
+
+```js
+chrome.storage.local.set({
+  inferenceBridge: {
+    enabled: true,
+  },
+});
+```
+
+Výchozí chování:
+
+- provider: `ollama`
+- endpoint: `http://127.0.0.1:3000/api/aegis/evaluate`
+- model: `llama3.1:8b`
+- interventionMode: `rewrite`
+
+Pokud zároveň běží Ollama na `http://127.0.0.1:11434`, route se ji pokusí použít. Když Ollama není dostupná, AEGIS automaticky spadne do lokálního policy fallbacku a sidepanel o tom vypíše audit log.
+
 Příklad konfigurace z DevTools konzole v extension contextu:
 
 ```js

@@ -21,6 +21,9 @@ const currentSessionThreats = {};
 /** @type {EvaluationSessionStore} */
 const currentSessionEvaluations = {};
 
+/** @type {Partial<Record<number, string>>} */
+const currentEvaluationKeys = {};
+
 chrome.runtime.onInstalled.addListener(() => {
   console.log("🛡️ AI Bodyguard: Service Worker inicializován.");
 
@@ -61,19 +64,52 @@ chrome.runtime.onMessage.addListener((/** @type {RuntimeInboundMessage} */ messa
 async function handleThreatDetection(tabId, message) {
   currentSessionThreats[tabId] = message.payload;
 
+  if (!message.payload.length) {
+    delete currentSessionEvaluations[tabId];
+    delete currentEvaluationKeys[tabId];
+    await broadcastThreatList(tabId);
+    return;
+  }
+
   await broadcastThreatList(tabId);
 
+  const evaluationKey = createEvaluationKey(message);
+
+  if (currentEvaluationKeys[tabId] === evaluationKey) {
+    return;
+  }
+
+  currentEvaluationKeys[tabId] = evaluationKey;
   const evaluation = await evaluateThreatBundle({
     page: message.page,
     threats: message.payload,
   });
 
-  if (!evaluation) {
+  if (!evaluation || currentEvaluationKeys[tabId] !== evaluationKey) {
     return;
   }
 
   currentSessionEvaluations[tabId] = evaluation;
   await broadcastInferenceResult(tabId, evaluation);
+}
+
+/**
+ * @param {ThreatsDetectedMessage} message
+ * @returns {string}
+ */
+function createEvaluationKey(message) {
+  return JSON.stringify({
+    url: message.page.url,
+    title: message.page.title,
+    threats: message.payload.map((threat) => ({
+      id: threat.id,
+      type: threat.type,
+      text: threat.text,
+      selector: threat.selector ?? "",
+      confidence: threat.confidence,
+      severity: threat.severity,
+    })),
+  });
 }
 
 /**
@@ -133,6 +169,7 @@ async function broadcastToUI(data) {
 chrome.tabs.onRemoved.addListener((/** @type {number} */ tabId) => {
   delete currentSessionThreats[tabId];
   delete currentSessionEvaluations[tabId];
+  delete currentEvaluationKeys[tabId];
 });
 
 console.log("🛰️ AI Bodyguard: Background Engine běží.");
