@@ -8,6 +8,7 @@ import { Badge } from "@once-ui-system/core/components/Badge";
 import { Text } from "@once-ui-system/core/components/Text";
 import { useTheme } from "@once-ui-system/core/contexts";
 import { AiGuardOpsConsole } from "./AiGuardOpsConsole";
+import { ExpectedResultsPage } from "../analytics/ExpectedResultsPage";
 import {
   Activity,
   Brain,
@@ -662,6 +663,10 @@ export function AiGuardLandingPage() {
               </Link>
             );
           })}
+        </div>
+
+        <div className="architecture-results-shell surface-inset">
+          <ExpectedResultsPage embedded />
         </div>
 
         <AiGuardOpsConsole />

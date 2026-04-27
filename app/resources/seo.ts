@@ -168,7 +168,7 @@ const pageSeo: Record<
       title: "AEGIS Results | Analýza očekávaných výsledků",
       description:
         "Vizualizace očekávaného růstu efektivity, snížení rizik a návratnosti investice po implementaci řešení v ekosystému AEGIS pomocí Once UI chart komponent.",
-      path: "/expected-results",
+      path: "/ai-guard/results",
       image: "/og/aegis-results.png",
     },
     schema: {
@@ -176,7 +176,7 @@ const pageSeo: Record<
       title: "AEGIS Results",
       description:
         "Analytická page s projekcí výkonu v čase, srovnáním rizik a strukturou přínosů.",
-      path: "/expected-results",
+      path: "/ai-guard/results",
       image: "/og/aegis-results.png",
     },
   },

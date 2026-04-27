@@ -42,7 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.76,
     },
     {
-      url: `${baseURL}/expected-results`,
+      url: `${baseURL}/ai-guard/results`,
       lastModified,
       changeFrequency: "monthly",
       priority: 0.7,

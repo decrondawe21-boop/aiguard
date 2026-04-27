@@ -316,6 +316,12 @@ export const aiGuardMegaMenuGroups: MegaMenuGroup[] = [
             icon: "help",
             description: "Fine-tuning modelu pro skeptickou, auditovatelnou interpretaci manipulace.",
           },
+          {
+            label: "Expected Results",
+            href: "/ai-guard#expected-results",
+            icon: "radialGauge",
+            description: "Metriky růstu efektivity, snížení rizik a návratnosti investice v ekosystému AEGIS.",
+          },
         ],
       },
     ],

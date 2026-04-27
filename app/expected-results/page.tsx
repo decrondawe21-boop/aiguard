@@ -1,18 +1,6 @@
-import { Meta, Schema } from "@once-ui-system/core/modules";
-import { ExpectedResultsPage } from "../../src/components/analytics/ExpectedResultsPage";
-import { getPageMeta, getPageSchema } from "../resources/seo";
-
-export async function generateMetadata() {
-  return Meta.generate(getPageMeta("results"));
-}
+import type { Route } from "next";
+import { redirect } from "next/navigation";
 
 export default function ExpectedResultsRoute() {
-  const schema = getPageSchema("results");
-
-  return (
-    <>
-      <Schema {...schema} />
-      <ExpectedResultsPage />
-    </>
-  );
+  redirect("/ai-guard/results" as Route);
 }

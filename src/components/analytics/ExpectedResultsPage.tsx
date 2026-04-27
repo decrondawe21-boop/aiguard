@@ -57,10 +57,17 @@ const metrics = [
   },
 ] as const;
 
-export function ExpectedResultsPage() {
+type ExpectedResultsPageProps = {
+  embedded?: boolean;
+};
+
+export function ExpectedResultsPage({ embedded = false }: ExpectedResultsPageProps) {
   return (
-    <div className={styles.page}>
-      <div className={styles.shell}>
+    <section
+      id={embedded ? "expected-results" : undefined}
+      className={embedded ? styles.embeddedSection : styles.page}
+    >
+      <div className={`${styles.shell} ${embedded ? styles.shellEmbedded : ""}`}>
         <header className={styles.hero}>
           <Badge
             className={styles.eyebrow}
@@ -68,14 +75,15 @@ export function ExpectedResultsPage() {
             background="surface"
             textVariant="label-default-s"
           >
-            Outcome Modeling
+            {embedded ? "AEGIS Outcome Layer" : "AEGIS Outcome Modeling"}
           </Badge>
           <Text as="h1" className={styles.title}>
-            Analýza očekávaných výsledků
+            {embedded ? "Metriky dopadu a návratnosti" : "Analýza očekávaných výsledků AEGIS"}
           </Text>
           <Text as="p" className={styles.copy}>
-            Vizualizace klíčových metrik a přínosů po implementaci řešení. Page používá
-            přímo Once UI data komponenty místo ruční práce s `recharts` wrappery.
+            {embedded
+              ? "Vnořená analytická vrstva ukazuje, jak by se po nasazení AEGIS měnila efektivita, úroveň rizika a návratnost investice. Vizualizace stojí přímo na Once UI data komponentách."
+              : "Vizualizace klíčových metrik, rizik a návratnosti po implementaci řešení v ekosystému AEGIS. Page používá přímo Once UI data komponenty místo ruční práce s `recharts` wrappery."}
           </Text>
         </header>
 
@@ -206,6 +214,6 @@ export function ExpectedResultsPage() {
           © 2026 Modelová predikce výsledků. Data reprezentují orientační scénář pro SMB nasazení.
         </footer>
       </div>
-    </div>
+    </section>
   );
 }
