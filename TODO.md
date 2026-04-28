@@ -46,6 +46,7 @@
   - neutral rewrite copy
   - Dokončeno: první cookie-banner override krok přepisuje accept/settings/reject copy do srozumitelnější formy a tlumí nátlakový vizuál bez automatického consent zásahu.
 - Dokončeno: extension bridge má teď skutečný lokální endpoint přes `/api/aegis/evaluate`, bezpečné defaulty na localhost a fail-soft fallback do AEGIS local policy engine, když Ollama není dostupná.
+- Dokončeno: sidepanel umí `Revert DOM`, takže rewrite / suppression / cookie override zásahy je možné vrátit a ponechat je do reloadu vypnuté.
 - Ověřit unpacked extension flow v Chrome:
   - side panel
   - background messaging

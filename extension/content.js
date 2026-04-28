@@ -5,6 +5,8 @@
  * @typedef {import("../src/lib/ai-guard/contracts").PageContext} PageContext
  * @typedef {import("../src/lib/ai-guard/contracts").RequestManualScanMessage} ContentRequestManualScanMessage
  * @typedef {import("../src/lib/ai-guard/contracts").RequestManualScanResponse} ContentRequestManualScanResponse
+ * @typedef {import("../src/lib/ai-guard/contracts").RequestRevertInterventionsMessage} ContentRequestRevertInterventionsMessage
+ * @typedef {import("../src/lib/ai-guard/contracts").RequestRevertInterventionsResponse} ContentRequestRevertInterventionsResponse
  * @typedef {import("../src/lib/ai-guard/contracts").ThreatRecord} ContentThreatRecord
  * @typedef {import("../src/lib/ai-guard/contracts").ThreatSource} ThreatSource
  * @typedef {import("../src/lib/ai-guard/contracts").ThreatType} ThreatType
@@ -30,14 +32,17 @@ const THREAT_PATTERNS = {
 };
 
 const BADGE_ATTRIBUTE = "data-ai-bodyguard-detected";
+const BADGE_NODE_ATTRIBUTE = "data-ai-bodyguard-badge";
 const REWRITE_ATTRIBUTE = "data-ai-bodyguard-rewritten";
 const SUPPRESSION_ATTRIBUTE = "data-ai-bodyguard-suppressed";
 const COOKIE_NORMALIZED_ATTRIBUTE = "data-ai-bodyguard-cookie-normalized";
 const COOKIE_TEXT_ATTRIBUTE = "data-ai-bodyguard-cookie-original-text";
+const REVERTED_ATTRIBUTE = "data-ai-bodyguard-reverted";
 const THREAT_ID_ATTRIBUTE = "data-ai-bodyguard-threat-id";
 const THREAT_TYPE_ATTRIBUTE = "data-ai-bodyguard-threat-type";
 const ORIGINAL_TEXT_ATTRIBUTE = "data-ai-bodyguard-original-text";
 const ORIGINAL_STYLE_ATTRIBUTE = "data-ai-bodyguard-original-style";
+const ORIGINAL_TITLE_ATTRIBUTE = "data-ai-bodyguard-original-title";
 const INTERVENTION_ATTRIBUTE = "data-ai-bodyguard-intervention";
 
 const COOKIE_BANNER_SELECTOR = [
@@ -175,6 +180,15 @@ function storeOriginalInlineStyle(element) {
 
 /**
  * @param {HTMLElement} element
+ */
+function storeOriginalTitle(element) {
+  if (!element.hasAttribute(ORIGINAL_TITLE_ATTRIBUTE)) {
+    element.setAttribute(ORIGINAL_TITLE_ATTRIBUTE, element.getAttribute("title") ?? "");
+  }
+}
+
+/**
+ * @param {HTMLElement} element
  * @param {"rewrite" | "suppress"} intervention
  */
 function appendIntervention(element, intervention) {
@@ -205,10 +219,19 @@ function rewriteElementText(element, nextText) {
 
 /**
  * @param {HTMLElement} element
+ * @returns {boolean}
+ */
+function isRevertedElement(element) {
+  return Boolean(element.closest(`[${REVERTED_ATTRIBUTE}="true"]`));
+}
+
+/**
+ * @param {HTMLElement} element
  * @param {"primary" | "secondary" | "tertiary"} emphasis
  */
 function softenCookieControl(element, emphasis) {
   storeOriginalInlineStyle(element);
+  storeOriginalTitle(element);
   element.style.transition = "none";
   element.style.animation = "none";
   element.style.boxShadow = "none";
@@ -260,7 +283,7 @@ function normalizeCookieBanners() {
   const banners = document.querySelectorAll(COOKIE_BANNER_SELECTOR);
 
   banners.forEach((banner) => {
-    if (banner.getAttribute(COOKIE_NORMALIZED_ATTRIBUTE) === "true") {
+    if (isRevertedElement(banner) || banner.getAttribute(COOKIE_NORMALIZED_ATTRIBUTE) === "true") {
       return;
     }
 
@@ -280,6 +303,7 @@ function normalizeCookieBanners() {
     }
 
     banner.setAttribute(COOKIE_NORMALIZED_ATTRIBUTE, "true");
+    storeOriginalTitle(banner);
     banner.title = "AEGIS: Cookie banner byl upraven pro informovanější volbu soukromí.";
 
     if (acceptAllControl) {
@@ -304,11 +328,16 @@ function normalizeCookieBanners() {
  * @param {ThreatType} type
  */
 function applySuppression(element, type) {
-  if (type !== "urgency" || element.getAttribute(SUPPRESSION_ATTRIBUTE) === "true") {
+  if (
+    type !== "urgency" ||
+    isRevertedElement(element) ||
+    element.getAttribute(SUPPRESSION_ATTRIBUTE) === "true"
+  ) {
     return;
   }
 
   storeOriginalInlineStyle(element);
+  storeOriginalTitle(element);
   element.setAttribute(SUPPRESSION_ATTRIBUTE, "true");
   appendIntervention(element, "suppress");
 
@@ -332,6 +361,7 @@ function applyRewrite(element, type, originalText) {
   const neutralizedText = getNeutralizedCopy(type, originalText);
 
   storeOriginalInlineStyle(element);
+  storeOriginalTitle(element);
   element.setAttribute(THREAT_ID_ATTRIBUTE, threatId);
   element.setAttribute(THREAT_TYPE_ATTRIBUTE, type);
   element.setAttribute(ORIGINAL_TEXT_ATTRIBUTE, originalText);
@@ -348,6 +378,10 @@ function applyRewrite(element, type, originalText) {
  * @returns {ContentThreatRecord | null}
  */
 function getStoredThreatRecord(element, source) {
+  if (isRevertedElement(element)) {
+    return null;
+  }
+
   const threatId = element.getAttribute(THREAT_ID_ATTRIBUTE);
   const type = element.getAttribute(THREAT_TYPE_ATTRIBUTE);
   const originalText = element.getAttribute(ORIGINAL_TEXT_ATTRIBUTE);
@@ -381,6 +415,7 @@ function getStoredThreatRecord(element, source) {
  */
 function highlightThreat(element, type) {
   storeOriginalInlineStyle(element);
+  storeOriginalTitle(element);
   element.style.outline = "2px dashed #ef4444";
   element.style.backgroundColor = "rgba(239, 68, 68, 0.1)";
   element.title = `AEGIS: Detekována technika ${type}`;
@@ -389,9 +424,86 @@ function highlightThreat(element, type) {
     const shieldBadge = document.createElement("span");
     shieldBadge.textContent = " ⚠️";
     shieldBadge.style.fontSize = "0.8rem";
+    shieldBadge.setAttribute(BADGE_NODE_ATTRIBUTE, "true");
     element.appendChild(shieldBadge);
     element.setAttribute(BADGE_ATTRIBUTE, "true");
   }
+}
+
+/**
+ * @param {HTMLElement} element
+ */
+function restoreElementInterventions(element) {
+  const originalText =
+    element.getAttribute(ORIGINAL_TEXT_ATTRIBUTE) ?? element.getAttribute(COOKIE_TEXT_ATTRIBUTE);
+  const originalStyle = element.getAttribute(ORIGINAL_STYLE_ATTRIBUTE);
+  const originalTitle = element.getAttribute(ORIGINAL_TITLE_ATTRIBUTE);
+
+  element.querySelectorAll(`[${BADGE_NODE_ATTRIBUTE}="true"]`).forEach((badge) => {
+    badge.remove();
+  });
+
+  if (originalText !== null) {
+    element.textContent = originalText;
+  }
+
+  if (originalStyle !== null) {
+    if (originalStyle) {
+      element.setAttribute("style", originalStyle);
+    } else {
+      element.removeAttribute("style");
+    }
+  }
+
+  if (originalTitle !== null) {
+    if (originalTitle) {
+      element.setAttribute("title", originalTitle);
+    } else {
+      element.removeAttribute("title");
+    }
+  }
+
+  element.setAttribute(REVERTED_ATTRIBUTE, "true");
+  element.removeAttribute(BADGE_ATTRIBUTE);
+  element.removeAttribute(REWRITE_ATTRIBUTE);
+  element.removeAttribute(SUPPRESSION_ATTRIBUTE);
+  element.removeAttribute(COOKIE_NORMALIZED_ATTRIBUTE);
+  element.removeAttribute(COOKIE_TEXT_ATTRIBUTE);
+  element.removeAttribute(THREAT_ID_ATTRIBUTE);
+  element.removeAttribute(THREAT_TYPE_ATTRIBUTE);
+  element.removeAttribute(ORIGINAL_TEXT_ATTRIBUTE);
+  element.removeAttribute(ORIGINAL_STYLE_ATTRIBUTE);
+  element.removeAttribute(ORIGINAL_TITLE_ATTRIBUTE);
+  element.removeAttribute(INTERVENTION_ATTRIBUTE);
+}
+
+/**
+ * @returns {number}
+ */
+function revertInterventions() {
+  /** @type {HTMLElement[]} */
+  const targets = [];
+  /** @type {Set<HTMLElement>} */
+  const seen = new Set();
+
+  document
+    .querySelectorAll(
+      [
+        `[${THREAT_ID_ATTRIBUTE}]`,
+        `[${COOKIE_TEXT_ATTRIBUTE}]`,
+        `[${COOKIE_NORMALIZED_ATTRIBUTE}]`,
+        `[${INTERVENTION_ATTRIBUTE}]`,
+      ].join(", "),
+    )
+    .forEach((node) => {
+      if (node instanceof HTMLElement && !seen.has(node)) {
+        seen.add(node);
+        targets.push(node);
+      }
+    });
+
+  targets.forEach(restoreElementInterventions);
+  return targets.length;
 }
 
 /**
@@ -420,6 +532,10 @@ function scanForCognitiveThreats(source = "auto") {
   const threatsFound = [];
 
   allElements.forEach((element) => {
+    if (isRevertedElement(element)) {
+      return;
+    }
+
     const storedThreat = getStoredThreatRecord(element, source);
 
     if (storedThreat) {
@@ -486,7 +602,7 @@ function scheduleScan(source = "mutation") {
 }
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-  /** @type {ContentRequestManualScanMessage} */
+  /** @type {ContentRequestManualScanMessage | ContentRequestRevertInterventionsMessage} */
   const runtimeMessage = message;
 
   if (runtimeMessage.action === "REQUEST_MANUAL_SCAN") {
@@ -496,6 +612,21 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
       ok: true,
       count: threats.length,
       threats,
+      source: "manual",
+    };
+
+    sendResponse(response);
+    return true;
+  }
+
+  if (runtimeMessage.action === "REQUEST_REVERT_INTERVENTIONS") {
+    const reverted = revertInterventions();
+    scanForCognitiveThreats("manual");
+
+    /** @type {ContentRequestRevertInterventionsResponse} */
+    const response = {
+      ok: true,
+      reverted,
       source: "manual",
     };
 

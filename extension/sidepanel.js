@@ -5,6 +5,7 @@
  * @typedef {import("../src/lib/ai-guard/contracts").GetCurrentThreatsResponse} GetCurrentThreatsResponse
  * @typedef {import("../src/lib/ai-guard/contracts").InferenceEvaluationResponse} InferenceEvaluationResponse
  * @typedef {import("../src/lib/ai-guard/contracts").RequestManualScanResponse} SidepanelRequestManualScanResponse
+ * @typedef {import("../src/lib/ai-guard/contracts").RequestRevertInterventionsResponse} SidepanelRequestRevertInterventionsResponse
  * @typedef {import("../src/lib/ai-guard/contracts").RuntimeOutboundMessage} RuntimeOutboundMessage
  * @typedef {import("../src/lib/ai-guard/contracts").ThreatRecord} SidepanelThreatRecord
  */
@@ -31,6 +32,7 @@ const webContent = document.getElementById("web-content");
 const detectedThreat = document.getElementById("detected-threat");
 const runScanButton = document.getElementById("run-scan");
 const refreshThreatsButton = document.getElementById("refresh-threats");
+const revertInterventionsButton = document.getElementById("revert-interventions");
 const openScanTabButton = document.getElementById("open-scan-tab");
 const startProtectionButton = document.getElementById("start-protection");
 
@@ -72,6 +74,14 @@ runScanButton?.addEventListener("click", async () => {
 refreshThreatsButton?.addEventListener("click", async () => {
   await refreshThreats();
   appendLog("Threat cache refreshed from active tab.");
+});
+
+revertInterventionsButton?.addEventListener("click", async () => {
+  const reverted = await requestInterventionRevert();
+  if (reverted !== null) {
+    await refreshThreats();
+    appendLog(`DOM revert completed. ${reverted} intervention target(s) restored.`);
+  }
 });
 
 chrome.runtime.onMessage.addListener((message) => {
@@ -163,6 +173,26 @@ async function requestManualScan() {
     void error;
     finishScanAnimation();
     appendLog("Manual scan failed. Content script is not available on this tab.");
+    return null;
+  }
+}
+
+/**
+ * @returns {Promise<number | null>}
+ */
+async function requestInterventionRevert() {
+  if (!activeTabId) return null;
+
+  try {
+    /** @type {SidepanelRequestRevertInterventionsResponse} */
+    const response = await chrome.tabs.sendMessage(activeTabId, {
+      action: "REQUEST_REVERT_INTERVENTIONS",
+    });
+
+    return response?.reverted ?? 0;
+  } catch (error) {
+    void error;
+    appendLog("DOM revert failed. Content script is not available on this tab.");
     return null;
   }
 }

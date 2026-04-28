@@ -26,6 +26,7 @@ Tato složka obsahuje první funkční kostru pro browser extension:
 
 - skenuje textové dark pattern heuristiky v navštívené stránce
 - zvýrazní podezřelé prvky přímo v DOM
+- umí vrátit AEGIS zásahy zpět přes `Revert DOM` bez okamžitého znovunasazení
 - drží hrozby per-tab v background workeru
 - zobrazí live systémový side panel
 - umí ručně vyžádat scan z aktivní karty

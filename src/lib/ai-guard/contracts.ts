@@ -115,10 +115,21 @@ export type RequestManualScanResponse = {
   source: "manual";
 };
 
+export type RequestRevertInterventionsMessage = {
+  action: "REQUEST_REVERT_INTERVENTIONS";
+};
+
+export type RequestRevertInterventionsResponse = {
+  ok: true;
+  reverted: number;
+  source: "manual";
+};
+
 export type RuntimeInboundMessage =
   | ThreatsDetectedMessage
   | GetCurrentThreatsMessage
-  | RequestManualScanMessage;
+  | RequestManualScanMessage
+  | RequestRevertInterventionsMessage;
 
 export type UpdateThreatListBroadcast = {
   type: "UPDATE_THREAT_LIST";
