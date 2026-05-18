@@ -126,6 +126,12 @@ export const ultimateMegaMenuGroups: MegaMenuGroup[] = [
             icon: "screen",
             description: "Návrat na hlavní surface Ultimate OS a jeho produktový vstup.",
           },
+          {
+            label: "Projektový ekosystém",
+            href: "/#public-projects",
+            icon: "world",
+            description: "Veřejné weby, aplikace a produktové větve napojené na DK-I infrastrukturu.",
+          },
         ],
       },
       {

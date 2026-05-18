@@ -147,6 +147,15 @@ type OnePageCardProps = {
   highlights: string[];
   tone?: "warm" | "cool" | "neutral" | "safe";
 };
+type PublicProject = {
+  name: string;
+  url: string;
+  domain: string;
+  description: string;
+  category: "main" | "creative" | "profile" | "technical" | "security";
+  label: string;
+  preview: string;
+};
 type TitleFrameProps = {
   variant: ActiveTab;
   theme?: SurfaceTheme["title"];
@@ -1118,6 +1127,137 @@ const galleryItems = [
   },
 ];
 
+const publicProjects: PublicProject[] = [
+  {
+    name: "David Kozák International",
+    url: "https://international.david-kozak.com",
+    domain: "international.david-kozak.com",
+    description:
+      "Firemní web pro služby, mezinárodní aktivity, kvalifikované řemeslníky, A1 dokumentaci a provozní podporu.",
+    category: "main",
+    label: "Hlavní web",
+    preview: "/og/aegis-ultimate.png",
+  },
+  {
+    name: "F-STUDIO",
+    url: "https://studio.david-kozak.com",
+    domain: "studio.david-kozak.com",
+    description:
+      "Kreativní a firemní systém pro řízení procesů, financí, HR, skladu, reportingu a komunikace.",
+    category: "creative",
+    label: "Systém",
+    preview: "/og/aegis-results.png",
+  },
+  {
+    name: "Imaginator",
+    url: "https://imaginator.david-kozak.com",
+    domain: "imaginator.david-kozak.com",
+    description: "Generativní vizuální projekt a AI experimenty.",
+    category: "creative",
+    label: "AI vizuál",
+    preview: "/og/aegis-ultimate.png",
+  },
+  {
+    name: "DKI Lab",
+    url: "https://new.david-kozak.com/",
+    domain: "new.david-kozak.com",
+    description: "Experimentální větev s novými koncepty a produktovými nápady.",
+    category: "creative",
+    label: "Lab",
+    preview: "/og/aegis-results.png",
+  },
+  {
+    name: "Silver projekt",
+    url: "https://silver.david-kozak.com/",
+    domain: "silver.david-kozak.com",
+    description: "Specializovaný projekt s vlastním brand stylem.",
+    category: "creative",
+    label: "Brand",
+    preview: "/og/aegis-ultimate.png",
+  },
+  {
+    name: "Osobní profil",
+    url: "https://osobni.david-kozak.com/",
+    domain: "osobni.david-kozak.com",
+    description: "Osobní profil a veřejná prezentace.",
+    category: "profile",
+    label: "Profil",
+    preview: "/og/aegis-ultimate.png",
+  },
+  {
+    name: "Profesní CV",
+    url: "https://zivotopis.david-kozak.com/",
+    domain: "zivotopis.david-kozak.com",
+    description: "Profesní CV web s referencemi.",
+    category: "profile",
+    label: "CV",
+    preview: "/og/aegis-results.png",
+  },
+  {
+    name: "DKI App",
+    url: "https://appka.david-kozak.com/",
+    domain: "appka.david-kozak.com",
+    description: "Produktový web zaměřený na aplikaci.",
+    category: "technical",
+    label: "App",
+    preview: "/og/aegis-results.png",
+  },
+  {
+    name: "RepasMobile",
+    url: "https://repasmobile.david-kozak.com",
+    domain: "repasmobile.david-kozak.com",
+    description: "Produktová prezentace zaměřená na mobilní servis a opravy.",
+    category: "technical",
+    label: "Servis",
+    preview: "/og/aegis-results.png",
+  },
+  {
+    name: "Dev / DK",
+    url: "https://dk.david-kozak.com",
+    domain: "dk.david-kozak.com",
+    description: "Technický hub s vývojářskými projekty.",
+    category: "technical",
+    label: "Dev",
+    preview: "/og/aegis-results.png",
+  },
+  {
+    name: "DKI Invent",
+    url: "https://invent.dk-i.cz/",
+    domain: "invent.dk-i.cz",
+    description: "Evidence inventáře a majetku pro projekty DKI.",
+    category: "technical",
+    label: "Inventář",
+    preview: "/og/aegis-results.png",
+  },
+  {
+    name: "Kozák / DK-I",
+    url: "https://kozak.dk-i.cz/",
+    domain: "kozak.dk-i.cz",
+    description: "Osobní projektový hub pod infrastrukturou DK-I.",
+    category: "profile",
+    label: "Hub",
+    preview: "/og/aegis-ultimate.png",
+  },
+  {
+    name: "Roadmaps / DK-I",
+    url: "https://roadmaps.dk-i.cz/",
+    domain: "roadmaps.dk-i.cz",
+    description: "Veřejný přehled roadmap pro plánování a směr produktů.",
+    category: "technical",
+    label: "Roadmap",
+    preview: "/og/aegis-results.png",
+  },
+  {
+    name: "PROTOKOL: AEGIS",
+    url: "https://aegis.d-international.eu",
+    domain: "aegis.d-international.eu",
+    description: "AI obranná vrstva proti manipulačním webovým patternům.",
+    category: "security",
+    label: "AI / bezpečnost",
+    preview: "/og/protokol-aegis.png",
+  },
+];
+
 const philosophyCards = [
   {
     id: "inverse-marketing",
@@ -1379,6 +1519,73 @@ function OnePageCard({
         ))}
       </div>
     </article>
+  );
+}
+
+function PublicProjectEcosystem() {
+  return (
+    <section id="public-projects" className="public-projects onepage-anchor">
+      <div className="public-projects__inner surface-frame surface-frame--warm">
+        <div className="public-projects__head">
+          <Text as="span" className="public-projects__eyebrow">
+            Veřejné projekty
+          </Text>
+          <Text as="h2" className="public-projects__title">
+            Projektový ekosystém
+          </Text>
+          <Text as="p" className="public-projects__copy">
+            Veřejná vrstva webů, aplikací a produktových větví. Každá karta vede na samostatný
+            projekt a používá jednotný brandový náhled z lokálních OG bannerů.
+          </Text>
+        </div>
+
+        <div className="public-projects__grid">
+          {publicProjects.map((project) => (
+            <a
+              key={project.url}
+              className="public-project-card surface-inset"
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-category={project.category}
+              aria-label={`${project.name} otevřít v nové záložce`}
+            >
+              <div className="public-project-card__preview" aria-hidden>
+                <img
+                  className="public-project-card__image"
+                  src={project.preview}
+                  alt=""
+                  loading="lazy"
+                />
+                <div className="public-project-card__preview-shade" />
+                <div className="public-project-card__preview-content">
+                  <span className="public-project-card__preview-label">{project.label}</span>
+                  <strong>{project.name}</strong>
+                  <span>{project.domain}</span>
+                </div>
+              </div>
+
+              <div className="public-project-card__body">
+                <span className="public-project-card__tag">{project.label}</span>
+                <div className="public-project-card__title-row">
+                  <Text as="h3" className="public-project-card__title">
+                    {project.name}
+                  </Text>
+                  <ChevronRight size={18} className="public-project-card__arrow" />
+                </div>
+                <Text as="p" className="public-project-card__description">
+                  {project.description}
+                </Text>
+                <span className="public-project-card__domain">
+                  <Globe size={13} />
+                  {project.domain}
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -2329,6 +2536,7 @@ export default function App({ page = "ultimate" }: { page?: AppPage }) {
             />
           </div>
         </div>
+        <PublicProjectEcosystem />
       </section>
       ) : null}
 
