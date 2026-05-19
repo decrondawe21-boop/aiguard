@@ -627,7 +627,7 @@ function MobileMenuPanel({
                             key={link.href}
                             href={link.href}
                             target="_blank"
-                            rel="noreferrer"
+                            rel="noopener noreferrer"
                             className={`app-mobile-menu__link${isActive ? " app-mobile-menu__link--active" : ""}`}
                             onClick={onClose}
                           >
@@ -1147,6 +1147,16 @@ const publicProjects: PublicProject[] = [
     category: "creative",
     label: "Systém",
     preview: "/og/aegis-results.png",
+  },
+  {
+    name: "F-STUDIO | David Kozák International, s.r.o.",
+    url: "https://firemni.dk-i.cz/",
+    domain: "firemni.dk-i.cz",
+    description:
+      "Interní firemní a ekonomický systém pro zakázky, nákladové položky, billing, dokumentaci, týmové schvalování a AI konzultanta.",
+    category: "technical",
+    label: "Firemní systém",
+    preview: "https://firemni.dk-i.cz/banners/open-graph.png",
   },
   {
     name: "Imaginator",
