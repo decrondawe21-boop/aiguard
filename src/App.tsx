@@ -1240,6 +1240,15 @@ const publicProjects: PublicProject[] = [
     preview: "/og/aegis-results.png",
   },
   {
+    name: "Fakturuj / DK-I",
+    url: "https://fakturuj.dk-i.cz/",
+    domain: "fakturuj.dk-i.cz",
+    description: "Fakturační nástroj pro vystavování, evidenci a správu faktur v rámci projektové infrastruktury DK-I.",
+    category: "technical",
+    label: "Fakturace",
+    preview: "/og/aegis-results.png",
+  },
+  {
     name: "Kozák / DK-I",
     url: "https://kozak.dk-i.cz/",
     domain: "kozak.dk-i.cz",
