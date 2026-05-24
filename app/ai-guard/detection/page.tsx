@@ -1,9 +1,9 @@
-import { Meta, Schema } from "@once-ui-system/core/modules";
+import { Schema } from "@once-ui-system/core/modules";
 import App from "../../../src/App";
-import { getPageMeta, getPageSchema } from "../../resources/seo";
+import { generatePageMetadata, getPageSchema } from "../../resources/seo";
 
 export async function generateMetadata() {
-  return Meta.generate(getPageMeta("detection"));
+  return generatePageMetadata("detection");
 }
 
 export default function AiGuardDetectionPage() {

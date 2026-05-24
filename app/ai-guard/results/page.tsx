@@ -1,9 +1,9 @@
-import { Meta, Schema } from "@once-ui-system/core/modules";
+import { Schema } from "@once-ui-system/core/modules";
 import { ExpectedResultsPage } from "../../../src/components/analytics/ExpectedResultsPage";
-import { getPageMeta, getPageSchema } from "../../resources/seo";
+import { generatePageMetadata, getPageSchema } from "../../resources/seo";
 
 export async function generateMetadata() {
-  return Meta.generate(getPageMeta("results"));
+  return generatePageMetadata("results");
 }
 
 export default function AiGuardResultsPage() {

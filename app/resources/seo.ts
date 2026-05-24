@@ -1,3 +1,6 @@
+import type { Metadata } from "next";
+import { Meta } from "@once-ui-system/core/modules";
+
 type SeoAuthor = {
   name: string;
   url?: string;
@@ -27,6 +30,14 @@ type SchemaProps = {
 
 const baseURL = "https://aegis.d-international.eu";
 const authorURL = "https://www.david-kozak.com";
+const ogImageWidth = 1200;
+const ogImageHeight = 630;
+
+const ogImages = {
+  ultimate: `${baseURL}/og/aegis-ultimate.png`,
+  protocol: `${baseURL}/og/protokol-aegis.png`,
+  results: `${baseURL}/og/aegis-results.png`,
+} as const;
 
 const author = {
   name: "David Kozák",
@@ -39,7 +50,7 @@ const defaultMeta: MetaProps = {
     "AEGIS propojuje Ultimate OS, digitální identitu a lokální AI obranu proti manipulaci, digitálnímu nátlaku a sledování.",
   baseURL,
   type: "website",
-  image: "/og/aegis-ultimate.png",
+  image: ogImages.ultimate,
   author,
 };
 
@@ -67,7 +78,7 @@ const pageSeo: Record<
       description:
         "Ultimate OS je prémiový designový surface systému AEGIS propojující digitální identitu, noční atmosféru a rozhraní postavené na Once UI.",
       path: "/",
-      image: "/og/aegis-ultimate.png",
+      image: ogImages.ultimate,
     },
     schema: {
       as: "website",
@@ -75,7 +86,7 @@ const pageSeo: Record<
       description:
         "Designový surface systému AEGIS propojující digitální identitu, noční atmosféru a prémiové rozhraní.",
       path: "/",
-      image: "/og/aegis-ultimate.png",
+      image: ogImages.ultimate,
     },
   },
   aiGuard: {
@@ -84,7 +95,7 @@ const pageSeo: Record<
       description:
         "Protokol: Aegis mapuje vrstvy detekce manipulace, aktivní obranu a on-premise AI infrastrukturu pro ochranu pozornosti a soukromí.",
       path: "/ai-guard",
-      image: "/og/protokol-aegis.png",
+      image: ogImages.protocol,
     },
     schema: {
       as: "webPage",
@@ -92,7 +103,7 @@ const pageSeo: Record<
       description:
         "Architektura detekce manipulace a aktivní obrany protokolu AEGIS proti digitálnímu nátlaku.",
       path: "/ai-guard",
-      image: "/og/protokol-aegis.png",
+      image: ogImages.protocol,
     },
   },
   philosophy: {
@@ -101,7 +112,7 @@ const pageSeo: Record<
       description:
         "Filosofie protokolu AEGIS: attention economy, inverzní marketing a user-first logika digitálního imunitního systému.",
       path: "/ai-guard/philosophy",
-      image: "/og/protokol-aegis.png",
+      image: ogImages.protocol,
     },
     schema: {
       as: "webPage",
@@ -109,7 +120,7 @@ const pageSeo: Record<
       description:
         "Attention economy, inverzní marketing a user-first logika protokolu AEGIS.",
       path: "/ai-guard/philosophy",
-      image: "/og/protokol-aegis.png",
+      image: ogImages.protocol,
     },
   },
   detection: {
@@ -118,7 +129,7 @@ const pageSeo: Record<
       description:
         "Vizuální, sémantická a kódová vrstva protokolu AEGIS spojují obraz, text a chování skriptů do jednoho obranného verdiktu.",
       path: "/ai-guard/detection",
-      image: "/og/protokol-aegis.png",
+      image: ogImages.protocol,
     },
     schema: {
       as: "webPage",
@@ -126,7 +137,7 @@ const pageSeo: Record<
       description:
         "Multimodální pipeline kombinující obraz, text a kód do jednoho obranného verdiktu.",
       path: "/ai-guard/detection",
-      image: "/og/protokol-aegis.png",
+      image: ogImages.protocol,
     },
   },
   defense: {
@@ -135,7 +146,7 @@ const pageSeo: Record<
       description:
         "Fog Screen, data poisoning, zen overlay a režimy zásahu protokolu AEGIS pro aktivní obranu proti digitální manipulaci.",
       path: "/ai-guard/defense",
-      image: "/og/protokol-aegis.png",
+      image: ogImages.protocol,
     },
     schema: {
       as: "webPage",
@@ -143,7 +154,7 @@ const pageSeo: Record<
       description:
         "Aktivní obrana protokolu AEGIS: fog screen, zen overlay a řízené režimy intervence.",
       path: "/ai-guard/defense",
-      image: "/og/protokol-aegis.png",
+      image: ogImages.protocol,
     },
   },
   build: {
@@ -152,7 +163,7 @@ const pageSeo: Record<
       description:
         "On-premise architektura protokolu AEGIS: HGX H100, air-gapped inference, Dataset Zla a fine-tuning modelu The Skeptic.",
       path: "/ai-guard/build",
-      image: "/og/protokol-aegis.png",
+      image: ogImages.protocol,
     },
     schema: {
       as: "webPage",
@@ -160,7 +171,7 @@ const pageSeo: Record<
       description:
         "HGX H100, air-gapped inference a roadmap od Datasetu Zla po model The Skeptic.",
       path: "/ai-guard/build",
-      image: "/og/protokol-aegis.png",
+      image: ogImages.protocol,
     },
   },
   results: {
@@ -169,7 +180,7 @@ const pageSeo: Record<
       description:
         "Vizualizace očekávaného růstu efektivity, snížení rizik a návratnosti investice po implementaci řešení v ekosystému AEGIS pomocí Once UI chart komponent.",
       path: "/ai-guard/results",
-      image: "/og/aegis-results.png",
+      image: ogImages.results,
     },
     schema: {
       as: "webPage",
@@ -177,7 +188,7 @@ const pageSeo: Record<
       description:
         "Analytická page s projekcí výkonu v čase, srovnáním rizik a strukturou přínosů.",
       path: "/ai-guard/results",
-      image: "/og/aegis-results.png",
+      image: ogImages.results,
     },
   },
 };
@@ -191,6 +202,37 @@ export function getPageMeta(pageKey: PageSeoKey) {
   };
 }
 
+export function generatePageMetadata(pageKey: PageSeoKey): Metadata {
+  const meta = getPageMeta(pageKey);
+  const generated = Meta.generate(meta);
+  const image = meta.image ?? defaultMeta.image ?? ogImages.ultimate;
+
+  return {
+    ...generated,
+    title: meta.title,
+    description: meta.description,
+    openGraph: {
+      ...generated.openGraph,
+      title: meta.title,
+      description: meta.description,
+      images: [
+        {
+          url: image,
+          width: ogImageWidth,
+          height: ogImageHeight,
+          alt: meta.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: meta.title,
+      description: meta.description,
+      images: [image],
+    } as Metadata["twitter"],
+  };
+}
+
 export function getPageSchema(pageKey: PageSeoKey) {
   return {
     ...defaultSchema,
@@ -198,4 +240,4 @@ export function getPageSchema(pageKey: PageSeoKey) {
   };
 }
 
-export { author, baseURL, defaultMeta, defaultSchema };
+export { author, baseURL, defaultMeta, defaultSchema, ogImageHeight, ogImages, ogImageWidth };

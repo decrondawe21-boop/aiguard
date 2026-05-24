@@ -152,9 +152,9 @@ type PublicProject = {
   url: string;
   domain: string;
   description: string;
-  category: "main" | "creative" | "profile" | "technical" | "security";
+  category: "main" | "creative" | "profile" | "technical" | "security" | "integration";
   label: string;
-  preview: string;
+  ogImage: string;
 };
 type TitleFrameProps = {
   variant: ActiveTab;
@@ -1127,6 +1127,13 @@ const galleryItems = [
   },
 ];
 
+const PREVIEW_VERSION = "20260524";
+
+function withPreviewVersion(url: string) {
+  const separator = url.includes("?") ? "&" : "?";
+  return `${url}${separator}v=${PREVIEW_VERSION}`;
+}
+
 const publicProjects: PublicProject[] = [
   {
     name: "David Kozák International",
@@ -1136,7 +1143,7 @@ const publicProjects: PublicProject[] = [
       "Firemní web pro služby, mezinárodní aktivity, kvalifikované řemeslníky, A1 dokumentaci a provozní podporu.",
     category: "main",
     label: "Hlavní web",
-    preview: "/og/aegis-ultimate.png",
+    ogImage: "https://international.david-kozak.com/og-image.jpg",
   },
   {
     name: "F-STUDIO",
@@ -1146,17 +1153,17 @@ const publicProjects: PublicProject[] = [
       "Kreativní a firemní systém pro řízení procesů, financí, HR, skladu, reportingu a komunikace.",
     category: "creative",
     label: "Systém",
-    preview: "/og/aegis-results.png",
+    ogImage: "https://studio.david-kozak.com/banners/open-graph.png",
   },
   {
-    name: "F-STUDIO | David Kozák International, s.r.o.",
+    name: "DKI Office",
     url: "https://firemni.dk-i.cz/",
     domain: "firemni.dk-i.cz",
     description:
       "Interní firemní a ekonomický systém pro zakázky, nákladové položky, billing, dokumentaci, týmové schvalování a AI konzultanta.",
     category: "technical",
     label: "Firemní systém",
-    preview: "https://firemni.dk-i.cz/banners/open-graph.png",
+    ogImage: "https://firemni.dk-i.cz/banners/open-graph.png",
   },
   {
     name: "Imaginator",
@@ -1165,7 +1172,7 @@ const publicProjects: PublicProject[] = [
     description: "Generativní vizuální projekt a AI experimenty.",
     category: "creative",
     label: "AI vizuál",
-    preview: "/og/aegis-ultimate.png",
+    ogImage: "https://imaginator.david-kozak.com/api/og",
   },
   {
     name: "DKI Lab",
@@ -1174,7 +1181,7 @@ const publicProjects: PublicProject[] = [
     description: "Experimentální větev s novými koncepty a produktovými nápady.",
     category: "creative",
     label: "Lab",
-    preview: "/og/aegis-results.png",
+    ogImage: "https://i.postimg.cc/1zw6d2j1/DK.png",
   },
   {
     name: "Silver projekt",
@@ -1183,7 +1190,7 @@ const publicProjects: PublicProject[] = [
     description: "Specializovaný projekt s vlastním brand stylem.",
     category: "creative",
     label: "Brand",
-    preview: "/og/aegis-ultimate.png",
+    ogImage: "https://silver.david-kozak.com/opengraph-image",
   },
   {
     name: "Osobní profil",
@@ -1192,7 +1199,7 @@ const publicProjects: PublicProject[] = [
     description: "Osobní profil a veřejná prezentace.",
     category: "profile",
     label: "Profil",
-    preview: "/og/aegis-ultimate.png",
+    ogImage: "https://osobni.david-kozak.com/opengraph-image?0ae605c390fa60b4",
   },
   {
     name: "Profesní CV",
@@ -1201,7 +1208,7 @@ const publicProjects: PublicProject[] = [
     description: "Profesní CV web s referencemi.",
     category: "profile",
     label: "CV",
-    preview: "/og/aegis-results.png",
+    ogImage: "https://zivotopis.david-kozak.com/og-image.png",
   },
   {
     name: "DKI App",
@@ -1210,7 +1217,7 @@ const publicProjects: PublicProject[] = [
     description: "Produktový web zaměřený na aplikaci.",
     category: "technical",
     label: "App",
-    preview: "/og/aegis-results.png",
+    ogImage: "https://aegis.d-international.eu/og/aegis-results.png",
   },
   {
     name: "RepasMobile",
@@ -1219,7 +1226,17 @@ const publicProjects: PublicProject[] = [
     description: "Produktová prezentace zaměřená na mobilní servis a opravy.",
     category: "technical",
     label: "Servis",
-    preview: "/og/aegis-results.png",
+    ogImage: "https://repasmobile-main.vercel.app/opengraph-image",
+  },
+  {
+    name: "REST||ART Integrace",
+    url: "https://restartintegrace.david-kozak.com",
+    domain: "restartintegrace.david-kozak.com",
+    description:
+      "Integrační projekt propojující práci, mentoring, bydlení a stabilizaci pro návrat lidí z krize, výkonu trestu nebo sociálního vyloučení.",
+    category: "integration",
+    label: "Integrace",
+    ogImage: "https://restartintegrace.david-kozak.com/brand/og-restart-integrace-v2.png",
   },
   {
     name: "Dev / DK",
@@ -1228,7 +1245,7 @@ const publicProjects: PublicProject[] = [
     description: "Technický hub s vývojářskými projekty.",
     category: "technical",
     label: "Dev",
-    preview: "/og/aegis-results.png",
+    ogImage: "https://dk.david-kozak.com/api/og",
   },
   {
     name: "DKI Invent",
@@ -1237,16 +1254,7 @@ const publicProjects: PublicProject[] = [
     description: "Evidence inventáře a majetku pro projekty DKI.",
     category: "technical",
     label: "Inventář",
-    preview: "/og/aegis-results.png",
-  },
-  {
-    name: "Fakturuj / DK-I",
-    url: "https://fakturuj.dk-i.cz/",
-    domain: "fakturuj.dk-i.cz",
-    description: "Fakturační nástroj pro vystavování, evidenci a správu faktur v rámci projektové infrastruktury DK-I.",
-    category: "technical",
-    label: "Fakturace",
-    preview: "/og/aegis-results.png",
+    ogImage: "https://invent.dk-i.cz/banners/open-graph.jpg",
   },
   {
     name: "Kozák / DK-I",
@@ -1255,7 +1263,7 @@ const publicProjects: PublicProject[] = [
     description: "Osobní projektový hub pod infrastrukturou DK-I.",
     category: "profile",
     label: "Hub",
-    preview: "/og/aegis-ultimate.png",
+    ogImage: "https://kozak.dk-i.cz/og-banner.png",
   },
   {
     name: "Roadmaps / DK-I",
@@ -1264,7 +1272,7 @@ const publicProjects: PublicProject[] = [
     description: "Veřejný přehled roadmap pro plánování a směr produktů.",
     category: "technical",
     label: "Roadmap",
-    preview: "/og/aegis-results.png",
+    ogImage: "https://roadmaps.dk-i.cz/og-image.png",
   },
   {
     name: "PROTOKOL: AEGIS",
@@ -1273,7 +1281,7 @@ const publicProjects: PublicProject[] = [
     description: "AI obranná vrstva proti manipulačním webovým patternům.",
     category: "security",
     label: "AI / bezpečnost",
-    preview: "/og/protokol-aegis.png",
+    ogImage: "https://aegis.d-international.eu/og/protokol-aegis.png",
   },
 ];
 
@@ -1554,7 +1562,7 @@ function PublicProjectEcosystem() {
           </Text>
           <Text as="p" className="public-projects__copy">
             Veřejná vrstva webů, aplikací a produktových větví. Každá karta vede na samostatný
-            projekt a používá jednotný brandový náhled z lokálních OG bannerů.
+            projekt a používá vlastní OG banner, pokud ho projekt publikuje.
           </Text>
         </div>
 
@@ -1572,14 +1580,13 @@ function PublicProjectEcosystem() {
               <div className="public-project-card__preview" aria-hidden>
                 <img
                   className="public-project-card__image"
-                  src={project.preview}
+                  src={withPreviewVersion(project.ogImage)}
                   alt=""
                   loading="lazy"
                 />
                 <div className="public-project-card__preview-shade" />
                 <div className="public-project-card__preview-content">
                   <span className="public-project-card__preview-label">{project.label}</span>
-                  <strong>{project.name}</strong>
                   <span>{project.domain}</span>
                 </div>
               </div>

@@ -9,7 +9,7 @@ import { Column, ThemeInit } from "@once-ui-system/core";
 import { Meta } from "@once-ui-system/core/modules";
 
 import { Providers } from "./providers";
-import { defaultMeta } from "./resources/seo";
+import { defaultMeta, ogImageHeight, ogImageWidth } from "./resources/seo";
 import { fonts, themeInit } from "../resources/once-ui.config";
 
 const rootMetadata = Meta.generate(defaultMeta);
@@ -41,11 +41,21 @@ export const metadata: Metadata = {
     siteName: "AEGIS",
     locale: "cs_CZ",
     url: defaultMeta.baseURL,
+    images: [
+      {
+        url: defaultMeta.image ?? `${defaultMeta.baseURL}/og/aegis-ultimate.png`,
+        width: ogImageWidth,
+        height: ogImageHeight,
+        alt: defaultMeta.title,
+      },
+    ],
   },
   twitter: {
     ...rootMetadata.twitter,
+    card: "summary_large_image",
     title: defaultMeta.title,
     description: defaultMeta.description,
+    images: [defaultMeta.image ?? `${defaultMeta.baseURL}/og/aegis-ultimate.png`],
     creator: "David Kozák",
   },
   icons: {
